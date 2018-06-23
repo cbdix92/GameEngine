@@ -1,0 +1,6 @@
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\bin\Debug\GameEngine.dll
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\bin\Debug\GameEngine.pdb
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.csprojAssemblyReference.cache
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.dll
+C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
