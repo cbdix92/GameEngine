@@ -4,3 +4,9 @@ C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEn
 C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache
 C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.dll
 C:\Users\Coleton\Documents\projects\repos\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\bin\Debug\GameEngine.pdb
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\obj\Debug\GameEngine.csprojAssemblyReference.cache
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\obj\Debug\GameEngine.csproj.CoreCompileInputs.cache
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\obj\Debug\GameEngine.pdb
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\bin\Debug\GameEngine.exe
+C:\Users\cbdix\OneDrive\Documents\GitHub\GameEngine\GameEngine\obj\Debug\GameEngine.exe
