@@ -11,7 +11,7 @@ namespace GameEngine
 
         private static Sprite[] spriteList = new Sprite[1];
 		
-		private char[,] imageBuffer;
+		private static char[,] imageBuffer;
 
 
         public static void Init(int ScreenY, int ScreenX)
@@ -78,13 +78,13 @@ namespace GameEngine
             }
         }
 		
-		public static void AddNewSprite(string name, Position position, char pixel)
+		public static void AddNewSprite(Position position, Image image,  string name)
 		{
 			// Increment SpriteList size.
 			Array.Resize(ref spriteList, spriteList.Length + 1);
 			
 			// Replace next null occurence with a new instance of Sprite.
-			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(name, position, pixel);
+			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(position, image, name);
 			
 		}
 		
@@ -114,36 +114,27 @@ namespace GameEngine
     class Sprite
     {
 		
-        private Position position;
-		private Image image;
-		private string name;
-		private bool active;
+        public Position position;
+		public Image image;
+		public string Name;
+		public bool Active;
 
 		
         public Sprite(Position position, Image image, string name)
         {
             this.position = position;
 			this.image = image;
-			this.name = name;
+			this.Name = name;
+			this.Active = true;
 
         }
-		public Active
-		{
-			get { return active; }
-			set { active = value; }
-		}
-		public Name
-		{
-			get {return name;}
-			set { name = value; }
-		}
 		
     }
 
     class Position
     {
-        int PosX { get; set; }
-        int PosY { get; set; }
+        public int PosX { get; set; }
+        public int PosY { get; set; }
 
         public Position(int X, int Y)
         {
@@ -154,13 +145,13 @@ namespace GameEngine
 	
 	class Image
 	{
-		char[,] Image;
+		char[,] image;
 		int sizeY = 1;
 		int sizeX = 0;
-		int maxX = 0
+		int maxX = 0;
 		
 		
-		public Convert(string source)
+		public void Convert(string source)
 		{
 			// Calculate the neccesary size if the Image array
 			foreach (char item in image)
@@ -176,26 +167,26 @@ namespace GameEngine
 			}
 			
 			// Instance the Image Array with proper size
-			Image = new char[sizeY, maxX];
+			image = new char[sizeY, maxX];
 			
 			// convert string onto char array and assign it to the proper position inside of the image array
-			for (int Y = 0; Y < Image.GetLength(0); Y++)
+			for (int Y = 0; Y < image.GetLength(0); Y++)
 			{
-				for (int X = 0; X < Image.GetLength(1); X++)
+				for (int X = 0; X < image.GetLength(1); X++)
 				{
 					if (source[Y, X] == ' ' || source[Y, X] == '\n')
 					{
 						continue;
 					}
 					
-					Image[Y, X] = source[Y, X];
+					image[Y, X] = source[Y, X];
 				}
 			}
 		}
 		
 		public char[,] Get()
 		{
-			return Image;
+			return image;
 		}
 	}
 }
