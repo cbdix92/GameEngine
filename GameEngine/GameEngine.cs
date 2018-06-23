@@ -3,7 +3,7 @@
 namespace GameEngine
 {
 
-    static class RenderEngine
+    public static class RenderEngine
     {
 
         private static char[,] screen;
@@ -48,6 +48,7 @@ namespace GameEngine
             // Fill screen with Sprites
             foreach (var sprite in spriteList)
 			{
+				if (sprite == null){continue;}
 				if (sprite.Active == true)
 				{
 					imageBuffer = sprite.image.Get();
@@ -102,7 +103,7 @@ namespace GameEngine
 					}
 					catch (IndexOutOfRangeException e) // Image to large for background. Tile the image
 					{
-						background[Y, X] = imageBuffer[background.GetLength(0) - Y, background.GetLength(1) - X];
+						background[Y, X] = imageBuffer[imageBuffer.GetLength(0) - 1, imageBuffer.GetLength(1) - 1];
 					}
 				}
 			}
@@ -111,7 +112,7 @@ namespace GameEngine
 
     }
 	
-    class Sprite
+    public class Sprite
     {
 		
         public Position position;
@@ -131,7 +132,7 @@ namespace GameEngine
 		
     }
 
-    class Position
+    public class Position
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
@@ -143,20 +144,20 @@ namespace GameEngine
         }
     }
 	
-	class Image
+	public class Image
 	{
 		char[,] image;
 		int sizeY = 1;
 		int sizeX = 0;
 		int maxX = 0;
-        int indexCountY = 0;
-        int indexCountX = 0;
+		int indexCountY = 0;
+		int indexCountX = 0;
 		
 		
 		public void Convert(string source)
 		{
 			// Calculate the neccesary size if the Image array
-			foreach (char item in image)
+			foreach (char item in source)
 			{
 				if (item == '\n')
 				{
