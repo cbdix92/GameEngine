@@ -169,7 +169,8 @@ namespace GameEngine
 				{
 					sizeY++;
 					if (sizeX > maxX) { maxX = sizeX; }
-					sizeX = 0;	
+					sizeX = 0;
+					continue;
 				}
 				sizeX++;
 			}
