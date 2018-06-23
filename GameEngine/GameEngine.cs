@@ -149,6 +149,8 @@ namespace GameEngine
 		int sizeY = 1;
 		int sizeX = 0;
 		int maxX = 0;
+        int indexCountY = 0;
+        int indexCountX = 0;
 		
 		
 		public void Convert(string source)
@@ -170,18 +172,19 @@ namespace GameEngine
 			image = new char[sizeY, maxX];
 			
 			// convert string onto char array and assign it to the proper position inside of the image array
-			for (int Y = 0; Y < image.GetLength(0); Y++)
-			{
-				for (int X = 0; X < image.GetLength(1); X++)
-				{
-					if (source[Y, X] == ' ' || source[Y, X] == '\n')
-					{
-						continue;
-					}
-					
-					image[Y, X] = source[Y, X];
-				}
-			}
+			foreach (char item in source)
+            {
+                if (item == '\n')
+                {
+                    indexCountY++;
+                    indexCountX = 0;
+                }
+                else
+                {
+                    image[indexCountY, indexCountX] = item;
+                    indexCountX++;
+                }
+            }
 		}
 		
 		public char[,] Get()
