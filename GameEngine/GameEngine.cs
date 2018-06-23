@@ -10,6 +10,8 @@ namespace GameEngine
         private static char[,] background;
 
         private static Sprite[] spriteList = new Sprite[1];
+		
+		private char[,] imageBuffer;
 
 
         public static void Init(int ScreenY, int ScreenX)
@@ -48,7 +50,15 @@ namespace GameEngine
 			{
 				if (sprite.Active == true)
 				{
-					screen[sprite.position.PosY, sprite.position.PosX] = sprite.pixel;
+					imageBuffer = sprite.image.Get();
+					
+					for (int Y = 0; Y < imageBuffer.GetLength(0); Y++)
+					{
+						for (int X = 0; X < imageBuffer.GetLength(1); X++)
+						{
+							screen[sprite.position.PosY + Y, sprite.position.PosX + X] = imageBuffer[Y, X];
+						}
+					}
 				}
 			}
         }
@@ -77,6 +87,27 @@ namespace GameEngine
 			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(name, position, pixel);
 			
 		}
+		
+		public static void SetBackgroundImage(Image image)
+		{
+			imageBuffer = image.Get();
+			// Iterate trough and fill the background with spaces (" ")
+			for (int Y = 0; Y < background.GetLength(0); Y++)
+			{
+				for (int X = 0; X < background.GetLength(1); X++)
+				{
+					try
+					{
+						background[Y, X] = imageBuffer[Y, X];
+					}
+					catch (IndexOutOfRangeException e) // Image to large for background. Tile the image
+					{
+						background[Y, X] = imageBuffer[background.GetLength(0) - Y, background.GetLength(1) - X];
+					}
+				}
+			}
+			
+		}
 
     }
 	
@@ -84,15 +115,15 @@ namespace GameEngine
     {
 		
         private Position position;
-		private char pixel;
+		private Image image;
 		private string name;
 		private bool active;
 
 		
-        public Sprite(Position position, char pixel, string name)
+        public Sprite(Position position, Image image, string name)
         {
             this.position = position;
-			this.pixel = pixel;
+			this.image = image;
 			this.name = name;
 
         }
@@ -101,6 +132,12 @@ namespace GameEngine
 			get { return active; }
 			set { active = value; }
 		}
+		public Name
+		{
+			get {return name;}
+			set { name = value; }
+		}
+		
     }
 
     class Position
@@ -117,28 +154,47 @@ namespace GameEngine
 	
 	class Image
 	{
-		char[,] Image; 
+		char[,] Image;
+		int sizeY = 1;
+		int sizeX = 0;
+		int maxX = 0
 		
-		public Image()
-		{
-			
-			
-		}
 		
-		public char[] loadSource(string source)
+		public Convert(string source)
 		{
 			// Calculate the neccesary size if the Image array
-			// ...
-			
-			// Instance the Image Array with proper size
-			// ...
-			
-			// convert string onto char array and assign it to the proper position inside of the image array
-			foreach (char item in source)
+			foreach (char item in image)
 			{
-				
+				if (item == '\n')
+				{
+					sizeY++;
+					if (sizeX > maxX) { maxX = sizeX; }
+					sizeX = 0;	
+				}
+				sizeX++;
 			}
 			
+			// Instance the Image Array with proper size
+			Image = new char[sizeY, maxX];
+			
+			// convert string onto char array and assign it to the proper position inside of the image array
+			for (int Y = 0; Y < Image.GetLength(0); Y++)
+			{
+				for (int X = 0; X < Image.GetLength(1); X++)
+				{
+					if (source[Y, X] == ' ' || source[Y, X] == '\n')
+					{
+						continue;
+					}
+					
+					Image[Y, X] = source[Y, X];
+				}
+			}
+		}
+		
+		public char[,] Get()
+		{
+			return Image;
 		}
 	}
 }
