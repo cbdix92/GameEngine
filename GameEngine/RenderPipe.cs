@@ -178,8 +178,6 @@ namespace GameEngine
 	{
 		char[,] image;
         int[] size;
-		int indexCountY = 0;
-		int indexCountX = 0;
 		
 		public Image()
 		{
@@ -209,23 +207,10 @@ namespace GameEngine
 
             // Instance the Image Array with proper size
             size = Utils.CalculateArraySize(source);
-            Console.WriteLine(size[0] + " | " + size[1]);
 			image = new char[size[0], size[1]];
 			
-			// convert string onto char array and assign it to the proper position inside of the image array
-			foreach (char item in source)
-            {
-                if (item == '\n')
-                {
-                    indexCountY++;
-                    indexCountX = 0;
-                }
-                else
-                {
-                    image[indexCountY, indexCountX] = item;
-                    indexCountX++;
-                }
-            }
+			// Convert string into char array and assign it to the proper position inside of the image array
+			Utils.StringToArray(ref image, source);
 		}
 		
 		public char[,] Get()

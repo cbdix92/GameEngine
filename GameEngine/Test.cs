@@ -9,17 +9,17 @@ namespace App
 		{
 			// sprite Image
 			string image = "@@@\n@@@@\n@@@@@\n@@@";
-			//Image imageConvert = new Image(image);
+			Image imageConvert = new Image(image);
 			//imageConvert.Convert(image);
 			
 			// Background image
-			string backgroundString = "....\n....\n....\n.....";
+			string backgroundString = "....\n....\n....\n..........";
 			Image background = new Image(backgroundString);
 			//background.Convert(backgroundString);
 			
 			RenderPipe.Init(10, 10);
 			
-			//Sprite TestSprite = RenderPipe.NewSprite(2, 1, imageConvert);
+			Sprite TestSprite = RenderPipe.NewSprite(2, 1, imageConvert);
 			//TestSprite.position.Teleport(1, 20);
 			
 			RenderPipe.SetBackgroundImage(background);
@@ -27,7 +27,7 @@ namespace App
 			
 			
 			RenderPipe.UpdateScreen();
-			//RenderPipe.Draw();
+			RenderPipe.Draw();
 			Console.ReadKey();
 		}
 	}

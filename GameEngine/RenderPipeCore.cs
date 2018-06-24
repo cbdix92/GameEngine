@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-static class Utils
+public static class Utils
 {
     public static int[] GetArrayRange(int sourceArrayLength)
     {
@@ -37,14 +37,45 @@ static class Utils
             if (item == '\n')
             {
                 sizeY++;
-                if (sizeX > maxX) { maxX = sizeX; }
                 sizeX = 0;
                 continue;
             }
             sizeX++;
+			if (sizeX > maxX) { maxX = sizeX; }
         }
 
         return new int[2] { sizeY, maxX };
 
     }
+	
+	public static StringToArray(ref char[,] image, string source)
+	{
+		/*
+		 * Convert a string into a two-dimensional char array.
+		 * string "  @  \n @@@ \n@@@@@"
+		 * 
+		 *         |___@___|
+		 *         |__@@@__|
+		 * becomes:|_@@@@@_| Inside of a two-dimensional matrix
+		 * 
+		 * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
+		 */
+		int indexCountY;
+		int indexCountX;
+		
+		foreach (char item in source)
+		{
+			if (item == '\n')
+			{
+				indexCountY++;
+				indexCountX = 0;
+			}
+			else
+			{
+				image[indexCountY, indexCountX] = item;
+				indexCountX++;
+			}
+		}
+		
+	}
 }
