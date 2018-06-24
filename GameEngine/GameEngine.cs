@@ -151,34 +151,32 @@ namespace GameEngine
 
     public class Position
     {
-        public int PosX { get; set; }
         public int PosY { get; set; }
+        public int PosX { get; set; }
 		public char[,] screenRefrence;
 
         public Position(int X, int Y, char[,] screenRefrence)
         {
-            PosX = X;
             PosY = Y;
+			PosX = X;
 			this.screenRefrence = screenRefrence;
         }
 		
-		public void Teleport(int Y, int X)
+		public void Teleport(int X, int Y)
 		{
-			Console.WriteLine(Y);
-			Console.WriteLine(X);
 			
-			if (X > screenRefrence.GetLength(1))
+			if (Y > screenRefrence.GetLength(0))
 			{
-				Teleport(Y, X - screenRefrence.GetLength(1) - 1);
+				Teleport(X, Y - screenRefrence.GetLength(0) - 1);
 			}
-			else if (Y > screenRefrence.GetLength(0))
+			else if (X > screenRefrence.GetLength(1))
 			{
-				Teleport(Y - screenRefrence.GetLength(0) - 1, X);
+				Teleport(X - screenRefrence.GetLength(1) - 1, Y);
 			}
 			else
 			{
-				PosX = X;
 				PosY = Y;
+				PosX = X;
 			}
 		}
     }

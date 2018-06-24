@@ -24,6 +24,8 @@ namespace App
 			
 			RenderEngine.SetBackgroundImage(background);
 			
+			
+			
 			RenderEngine.UpdateScreen();
 			RenderEngine.Draw();
 			Console.ReadKey();
