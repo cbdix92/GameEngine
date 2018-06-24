@@ -1,4 +1,5 @@
 ﻿using System;
+using Utils;
 
 namespace GameEngine
 {
@@ -20,19 +21,28 @@ namespace GameEngine
             {
                 screen = new char[ScreenY, ScreenX];
                 background = new char[ScreenY, ScreenX];
-
-				/* NOT NEEDED. MAYBE?
-                // Iterate trough and fill the background with spaces (' ')
-                for (int Y = 0; Y < screen.GetLength(0); Y++)
-                {
-                    for (int X = 0; X < screen.GetLength(1); X++)
-                    {
-                        //background[Y, X] = ' ';
-                    }
-                }*/
             }
         }
-
+		
+		public static void SetBackgroundImage(Image image)
+		{
+			imageBuffer = image.Get();
+			// Iterate trough and fill the background with spaces (" ")
+			for (int Y = 0; Y < imageBuffer.GetLength(0); Y++)
+			{
+				for (int X = 0; X < imageBuffer.GetLength(1); X++)
+				{
+					try
+					{
+						background[Y, X] = imageBuffer[Y, X];
+					}
+					catch (IndexOutOfRangeException) // Image to large for background. Tile the image
+					{
+						background[Y, X] = imageBuffer[imageBuffer.GetLength(0) - 1, imageBuffer.GetLength(1) - 1];
+					}
+				}
+			}	
+		}
 
         public static void UpdateScreen()
         {
@@ -42,9 +52,15 @@ namespace GameEngine
 			{
 				for (int X = 0; X < background.GetLength(1); X++)
 				{
-					screen[Y, X] = background[Y, X];
+                    if (background[Y, X] != '\0')
+                    {
+					    screen[Y, X] = background[Y, X];
+                    }
 				}
 			}
+
+            // Check is a Sprite object was ever instantiated. If not, skip the sprite check.
+            if (spriteList == null) { goto SkipSpriteCheck; }
 
             // Fill screen with Sprites
             foreach (var sprite in spriteList)
@@ -71,23 +87,9 @@ namespace GameEngine
 					}
 				}
 			}
+            SkipSpriteCheck:;
         }
 		
-		public static void Draw()
-        {
-
-            Console.Clear();
-            // Draw the screen
-            for (int Y = 0; Y < screen.GetLength(0); Y++)
-            {
-                for (int X = 0; X < screen.GetLength(1); X++)
-                {
-                    Console.Write(screen[Y, X]);
-                }
-                Console.WriteLine();
-            }
-        }
-
 		public static Sprite NewSprite(int Xpos, int Ypos, Image image)
 		{
 			if (spriteList == null)
@@ -107,26 +109,21 @@ namespace GameEngine
 			return spriteList[spriteList.Length - 1];
 			
 		}
-		
-		public static void SetBackgroundImage(Image image)
-		{
-			imageBuffer = image.Get();
-			// Iterate trough and fill the background with spaces (" ")
-			for (int Y = 0; Y < background.GetLength(0); Y++)
-			{
-				for (int X = 0; X < background.GetLength(1); X++)
-				{
-					try
-					{
-						background[Y, X] = imageBuffer[Y, X];
-					}
-					catch (IndexOutOfRangeException) // Image to large for background. Tile the image
-					{
-						background[Y, X] = imageBuffer[imageBuffer.GetLength(0) - 1, imageBuffer.GetLength(1) - 1];
-					}
-				}
-			}	
-		}
+
+		public static void Draw()
+        {
+
+            Console.Clear();
+            // Draw the screen
+            for (int Y = 0; Y < screen.GetLength(0); Y++)
+            {
+                for (int X = 0; X < screen.GetLength(1); X++)
+                {
+                    Console.Write(screen[Y, X]);
+                }
+                Console.WriteLine();
+            }
+        }
     }
 	
     public class Sprite
@@ -196,7 +193,7 @@ namespace GameEngine
 		}
 		public Image(string source)
 		{
-			/* Overload contructor method allowing an image to be added at instantiation time*/
+			/* Overload contructor method allowing an image to be added at instantiation time */
 			Convert(source);
 		}
 		

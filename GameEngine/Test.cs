@@ -1,5 +1,6 @@
 using System;
 using GameEngine;
+using Utils;
 
 namespace App
 {
@@ -13,9 +14,9 @@ namespace App
 			//imageConvert.Convert(image);
 			
 			// Background image
-			string backgroundString = "..\n";
-			Image background = new Image();
-			background.Convert(backgroundString);
+			string backgroundString = "....\n....\n....\n....";
+			Image background = new Image(backgroundString);
+			//background.Convert(backgroundString);
 			
 			RenderEngine.Init(10, 10);
 			
