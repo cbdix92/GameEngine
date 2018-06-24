@@ -9,19 +9,18 @@ namespace App
 		{
 			// sprite Image
 			string image = "@@@\n@@@@\n@@@@@\n@@@";
-			Image imageConvert = new Image();
-			imageConvert.Convert(image);
+			Image imageConvert = new Image(image);
+			//imageConvert.Convert(image);
 			
 			// Background image
-			string backgroundString = ".....\n.....\n.....\n.....";
+			string backgroundString = "..\n";
 			Image background = new Image();
 			background.Convert(backgroundString);
 			
-			Position testSpritePos = new Position(2, 1);
-			
 			RenderEngine.Init(10, 10);
 			
-			RenderEngine.AddNewSprite(new Position(2, 1), imageConvert, "Test_Sprite");
+			Sprite TestSprite = RenderEngine.NewSprite(2, 1, imageConvert);
+			TestSprite.position.Teleport(1, 20);
 			
 			RenderEngine.SetBackgroundImage(background);
 			

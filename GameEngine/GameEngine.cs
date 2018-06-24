@@ -9,7 +9,7 @@ namespace GameEngine
         private static char[,] screen;
         private static char[,] background;
 
-        private static Sprite[] spriteList = new Sprite[1];
+        private static Sprite[] spriteList;
 		
 		private static char[,] imageBuffer;
 
@@ -21,14 +21,15 @@ namespace GameEngine
                 screen = new char[ScreenY, ScreenX];
                 background = new char[ScreenY, ScreenX];
 
-                // Iterate trough and fill the background with spaces (" ")
+				/* NOT NEEDED. MAYBE?
+                // Iterate trough and fill the background with spaces (' ')
                 for (int Y = 0; Y < screen.GetLength(0); Y++)
                 {
                     for (int X = 0; X < screen.GetLength(1); X++)
                     {
-                        background[Y, X] = ' ';
+                        //background[Y, X] = ' ';
                     }
-                }
+                }*/
             }
         }
 
@@ -57,7 +58,15 @@ namespace GameEngine
 					{
 						for (int X = 0; X < imageBuffer.GetLength(1); X++)
 						{
-							screen[sprite.position.PosY + Y, sprite.position.PosX + X] = imageBuffer[Y, X];
+							if (imageBuffer[Y, X] == '\0'){ continue; }// skip blank spaces in the image
+							try
+							{
+								screen[sprite.position.PosY + Y, sprite.position.PosX + X] = imageBuffer[Y, X];
+							}
+							catch (IndexOutOfRangeException)
+							{
+								continue;
+							}
 						}
 					}
 				}
@@ -78,14 +87,24 @@ namespace GameEngine
                 Console.WriteLine();
             }
         }
-		
-		public static void AddNewSprite(Position position, Image image,  string name)
+
+		public static Sprite NewSprite(int Xpos, int Ypos, Image image)
 		{
-			// Increment SpriteList size.
-			Array.Resize(ref spriteList, spriteList.Length + 1);
+			if (spriteList == null)
+			{
+				spriteList = new Sprite[1];
+			}
+			else
+			{
+				// Increment SpriteList size.
+				Array.Resize(ref spriteList, spriteList.Length + 1);
+			}
 			
 			// Replace next null occurence with a new instance of Sprite.
-			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(position, image, name);
+			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), image, screen);
+			
+			// Return a reference to the Sprite we just created so we can issue commands from the top level.
+			return spriteList[spriteList.Length - 1];
 			
 		}
 		
@@ -101,15 +120,13 @@ namespace GameEngine
 					{
 						background[Y, X] = imageBuffer[Y, X];
 					}
-					catch (IndexOutOfRangeException e) // Image to large for background. Tile the image
+					catch (IndexOutOfRangeException) // Image to large for background. Tile the image
 					{
 						background[Y, X] = imageBuffer[imageBuffer.GetLength(0) - 1, imageBuffer.GetLength(1) - 1];
 					}
 				}
-			}
-			
+			}	
 		}
-
     }
 	
     public class Sprite
@@ -117,15 +134,15 @@ namespace GameEngine
 		
         public Position position;
 		public Image image;
-		public string Name;
 		public bool Active;
+		public char[,] screenRefrence;
 
 		
-        public Sprite(Position position, Image image, string name)
+        public Sprite(Position position, Image image, char[,] screenRefrence)
         {
             this.position = position;
 			this.image = image;
-			this.Name = name;
+			this.screenRefrence = screenRefrence;
 			this.Active = true;
 
         }
@@ -136,12 +153,34 @@ namespace GameEngine
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
+		public char[,] screenRefrence;
 
-        public Position(int X, int Y)
+        public Position(int X, int Y, char[,] screenRefrence)
         {
             PosX = X;
             PosY = Y;
+			this.screenRefrence = screenRefrence;
         }
+		
+		public void Teleport(int Y, int X)
+		{
+			Console.WriteLine(Y);
+			Console.WriteLine(X);
+			
+			if (X > screenRefrence.GetLength(1))
+			{
+				Teleport(Y, X - screenRefrence.GetLength(1) - 1);
+			}
+			else if (Y > screenRefrence.GetLength(0))
+			{
+				Teleport(Y - screenRefrence.GetLength(0) - 1, X);
+			}
+			else
+			{
+				PosX = X;
+				PosY = Y;
+			}
+		}
     }
 	
 	public class Image
@@ -152,6 +191,16 @@ namespace GameEngine
 		int maxX = 0;
 		int indexCountY = 0;
 		int indexCountX = 0;
+		
+		public Image()
+		{
+			/* EMPTY CONSTRUCTOR METHOD DO NOT REMOVE! */
+		}
+		public Image(string source)
+		{
+			/* Overload contructor method allowing an image to be added at instantiation time*/
+			Convert(source);
+		}
 		
 		
 		public void Convert(string source)
