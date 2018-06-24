@@ -1,10 +1,9 @@
 ﻿using System;
-using Utils;
 
 namespace GameEngine
 {
 
-    public static class RenderEngine
+    public static class RenderPipe
     {
 
         private static char[,] screen;
@@ -28,18 +27,15 @@ namespace GameEngine
 		{
 			imageBuffer = image.Get();
 			// Iterate trough and fill the background with spaces (" ")
-			for (int Y = 0; Y < imageBuffer.GetLength(0); Y++)
+			foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
 			{
-				for (int X = 0; X < imageBuffer.GetLength(1); X++)
+				foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
 				{
-					try
-					{
-						background[Y, X] = imageBuffer[Y, X];
-					}
-					catch (IndexOutOfRangeException) // Image to large for background. Tile the image
-					{
-						background[Y, X] = imageBuffer[imageBuffer.GetLength(0) - 1, imageBuffer.GetLength(1) - 1];
-					}
+                    if (Y >= background.GetLength(0) || X >= background.GetLength(1))
+                    {
+                        continue;
+                    }
+                    background[Y, X] = imageBuffer[Y, X];
 				}
 			}	
 		}
@@ -48,9 +44,9 @@ namespace GameEngine
         {
 
             // Fill screen with background
-            for (int Y = 0; Y < background.GetLength(0); Y++)
+            foreach (int Y in Utils.GetArrayRange(background.GetLength(0)))
 			{
-				for (int X = 0; X < background.GetLength(1); X++)
+				foreach (int X in Utils.GetArrayRange(background.GetLength(1)))
 				{
                     if (background[Y, X] != '\0')
                     {
@@ -70,9 +66,9 @@ namespace GameEngine
 				{
 					imageBuffer = sprite.image.Get();
 					
-					for (int Y = 0; Y < imageBuffer.GetLength(0); Y++)
+					foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
 					{
-						for (int X = 0; X < imageBuffer.GetLength(1); X++)
+						foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
 						{
 							if (imageBuffer[Y, X] == '\0'){ continue; }// skip blank spaces in the image
 							try
@@ -115,9 +111,9 @@ namespace GameEngine
 
             Console.Clear();
             // Draw the screen
-            for (int Y = 0; Y < screen.GetLength(0); Y++)
+            foreach (int Y in Utils.GetArrayRange(screen.GetLength(0)))
             {
-                for (int X = 0; X < screen.GetLength(1); X++)
+                foreach (int X in Utils.GetArrayRange(screen.GetLength(1)))
                 {
                     Console.Write(screen[Y, X]);
                 }
@@ -181,9 +177,7 @@ namespace GameEngine
 	public class Image
 	{
 		char[,] image;
-		int sizeY = 1;
-		int sizeX = 0;
-		int maxX = 0;
+        int[] size;
 		int indexCountY = 0;
 		int indexCountX = 0;
 		
@@ -193,28 +187,30 @@ namespace GameEngine
 		}
 		public Image(string source)
 		{
-			/* Overload contructor method allowing an image to be added at instantiation time */
+			/* 
+             * Overload contructor method allowing an image to be added at instantiation time 
+             */
 			Convert(source);
 		}
 		
 		
 		public void Convert(string source)
 		{
-			// Calculate the neccesary size if the Image array
-			foreach (char item in source)
-			{
-				if (item == '\n')
-				{
-					sizeY++;
-					if (sizeX > maxX) { maxX = sizeX; }
-					sizeX = 0;
-					continue;
-				}
-				sizeX++;
-			}
-			
-			// Instance the Image Array with proper size
-			image = new char[sizeY, maxX];
+            /*
+             * Convert a string into a two-dimensional char array.
+             * string "  @  \n @@@ \n@@@@@"
+             * 
+             *         |___@___|
+             *         |__@@@__|
+             * becomes:|_@@@@@_| Inside of a two-dimensional matrix
+             * 
+             * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
+             */
+
+            // Instance the Image Array with proper size
+            size = Utils.CalculateArraySize(source);
+            Console.WriteLine(size[0] + " | " + size[1]);
+			image = new char[size[0], size[1]];
 			
 			// convert string onto char array and assign it to the proper position inside of the image array
 			foreach (char item in source)
