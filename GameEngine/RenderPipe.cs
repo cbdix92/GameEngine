@@ -11,6 +11,7 @@ namespace GameEngine
 
         private static Sprite[] spriteList;
 		
+		// Temporary storage an image being written to the screen.
 		private static char[,] imageBuffer;
 
 
@@ -26,7 +27,6 @@ namespace GameEngine
 		public static void SetBackgroundImage(Image image)
 		{
 			imageBuffer = image.Get();
-			// Iterate trough and fill the background with spaces (" ")
 			foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
 			{
 				foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
@@ -77,6 +77,7 @@ namespace GameEngine
 							}
 							catch (IndexOutOfRangeException)
 							{
+								// This will skip parts of the sprite that are no longer on the screen.
 								continue;
 							}
 						}
