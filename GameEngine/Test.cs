@@ -1,6 +1,5 @@
 using System;
 using GameEngine;
-using Utils;
 
 namespace App
 {
@@ -8,27 +7,26 @@ namespace App
 	{
 		static void Main(string[] args)
 		{
-			// sprite Image
-			string image = "@@@\n@@@@\n@@@@@\n@@@";
-			Image imageConvert = new Image(image);
-			//imageConvert.Convert(image);
+			
+			Render.Init(10, 10);
+			
 			
 			// Background image
-			string backgroundString = "....\n....\n....\n....";
+			string backgroundString = "........\n........\n........\n........";
 			Image background = new Image(backgroundString);
-			//background.Convert(backgroundString);
 			
-			RenderEngine.Init(10, 10);
+			Render.SetBackground(background);
 			
-			Sprite TestSprite = RenderEngine.NewSprite(2, 1, imageConvert);
-			TestSprite.position.Teleport(1, 20);
-			
-			RenderEngine.SetBackgroundImage(background);
-			
+			// Create a Sprite
+			string playerImageAsString = "O\n>>\n/\\";
+			Image playerImage = new Image(playerImageAsString);
+			Sprite TestSprite = Render.NewSprite(1, 1, playerImage);
 			
 			
-			RenderEngine.UpdateScreen();
-			RenderEngine.Draw();
+			
+			
+			Render.UpdateScreen();
+			Render.Draw();
 			Console.ReadKey();
 		}
 	}
