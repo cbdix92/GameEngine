@@ -12,11 +12,12 @@ namespace App
 			
 			
 			// Background image
-			string backgroundString = "........\n........\n........\n........";
-			Image background = new Image(backgroundString);
+			//string backgroundString = "........\n........\n........\n........";
+			//Image background = new Image(backgroundString);
 			
-			Render.SetBackground(background);
-			
+			//Render.SetBackground(background);
+			Image backgroundFillTest = new Image("_");
+			Render.FillBackground(backgroundFillTest);
 			// Create a Sprite
 			string playerImageAsString = "O\n>>\n/\\";
 			Image playerImage = new Image(playerImageAsString);

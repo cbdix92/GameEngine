@@ -48,15 +48,10 @@ namespace GameEngine
 			 * If the Image object is not large enough to fill the background, it will be tiled.
 			 * !!!NOT COMPLETE. DO NOT USE.!!!
 			 */
-			 imageBuffer = image.Get();
+			
+			imageBuffer = image.Get();
 			 
-			 foreach (int Y in RCore.GetArrayRange(background.GetLength(0)))
-			 {
-				foreach (int X in RCore.GetArrayRange(background.GetLength(1)))
-				{					
-					background[Y, X] = imageBuffer[Y, X];
-				}
-			 }
+			RCore.FillArray(ref background, imageBuffer);
 		}
 
         public static void UpdateScreen()
