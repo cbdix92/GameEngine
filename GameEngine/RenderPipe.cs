@@ -24,7 +24,7 @@ namespace GameEngine
             }
         }
 		
-		public static void SetBackgroundImage(Image image)
+		public static void SetBackground(Image image)
 		{
 			imageBuffer = image.Get();
 			foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
@@ -37,7 +37,26 @@ namespace GameEngine
                     }
                     background[Y, X] = imageBuffer[Y, X];
 				}
-			}	
+			}
+		}
+		
+		public static void FillBackground(Image image)
+		{
+			
+			/* 
+			 * Fill the background with Image object.
+			 * If the Image object is not large enough to fill the background, it will be tiled.
+			 * !!!NOT COMPLETE. DO NOT USE.!!!
+			 */
+			 imageBuffer = image.Get();
+			 
+			 foreach (int Y in Utils.GetArrayRange(background.GetLength(0)))
+			 {
+				foreach (int X in Utils.GetArrayRange(background.GetLength(1)))
+				{					
+					background[Y, X] = imageBuffer[Y, X];
+				}
+			 }
 		}
 
         public static void UpdateScreen()
@@ -70,7 +89,7 @@ namespace GameEngine
 					{
 						foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
 						{
-							if (imageBuffer[Y, X] == '\0'){ continue; }// skip blank spaces in the image
+							if (imageBuffer[Y, X] == '\0' || Char.IsWhiteSpace(imageBuffer[Y, X]) ){ continue; }// skip blank spaces in the image
 							try
 							{
 								screen[sprite.position.PosY + Y, sprite.position.PosX + X] = imageBuffer[Y, X];
@@ -158,20 +177,8 @@ namespace GameEngine
 		
 		public void Teleport(int X, int Y)
 		{
-			
-			if (Y > screenRefrence.GetLength(0))
-			{
-				Teleport(X, Y - screenRefrence.GetLength(0) - 1);
-			}
-			else if (X > screenRefrence.GetLength(1))
-			{
-				Teleport(X - screenRefrence.GetLength(1) - 1, Y);
-			}
-			else
-			{
-				PosY = Y;
-				PosX = X;
-			}
+			PosY = Y;
+			PosX = X;
 		}
     }
 	

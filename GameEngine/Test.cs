@@ -7,22 +7,21 @@ namespace App
 	{
 		static void Main(string[] args)
 		{
-			// sprite Image
-			string image = "@@@\n@@@@\n@@@@@\n@@@";
-			Image imageConvert = new Image(image);
-			//imageConvert.Convert(image);
-			
-			// Background image
-			string backgroundString = "....\n....\n....\n..........";
-			Image background = new Image(backgroundString);
-			//background.Convert(backgroundString);
 			
 			RenderPipe.Init(10, 10);
 			
-			Sprite TestSprite = RenderPipe.NewSprite(2, 1, imageConvert);
-			//TestSprite.position.Teleport(1, 20);
 			
-			RenderPipe.SetBackgroundImage(background);
+			// Background image
+			string backgroundString = "........\n........\n........\n........";
+			Image background = new Image(backgroundString);
+			
+			RenderPipe.SetBackground(background);
+			
+			// Create a Sprite
+			string playerImageAsString = "O\n>>\n/\\";
+			Image playerImage = new Image(playerImageAsString);
+			Sprite TestSprite = RenderPipe.NewSprite(1, 1, playerImage);
+			
 			
 			
 			

@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 public static class Utils
 {
     public static int[] GetArrayRange(int sourceArrayLength)
@@ -48,7 +47,7 @@ public static class Utils
 
     }
 	
-	public static StringToArray(ref char[,] image, string source)
+	public static void StringToArray(ref char[,] image, string source)
 	{
 		/*
 		 * Convert a string into a two-dimensional char array.
@@ -60,8 +59,8 @@ public static class Utils
 		 * 
 		 * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
 		 */
-		int indexCountY;
-		int indexCountX;
+		int indexCountY = 0;
+		int indexCountX = 0;
 		
 		foreach (char item in source)
 		{
