@@ -8,25 +8,25 @@ namespace App
 		static void Main(string[] args)
 		{
 			
-			RenderPipe.Init(10, 10);
+			Render.Init(10, 10);
 			
 			
 			// Background image
 			string backgroundString = "........\n........\n........\n........";
 			Image background = new Image(backgroundString);
 			
-			RenderPipe.SetBackground(background);
+			Render.SetBackground(background);
 			
 			// Create a Sprite
 			string playerImageAsString = "O\n>>\n/\\";
 			Image playerImage = new Image(playerImageAsString);
-			Sprite TestSprite = RenderPipe.NewSprite(1, 1, playerImage);
+			Sprite TestSprite = Render.NewSprite(1, 1, playerImage);
 			
 			
 			
 			
-			RenderPipe.UpdateScreen();
-			RenderPipe.Draw();
+			Render.UpdateScreen();
+			Render.Draw();
 			Console.ReadKey();
 		}
 	}

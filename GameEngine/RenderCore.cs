@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static class Utils
+public static class RCore
 {
     public static int[] GetArrayRange(int sourceArrayLength)
     {
@@ -75,6 +75,31 @@ public static class Utils
 				indexCountX++;
 			}
 		}
-		
 	}
+
+    public static void FillArray(ref char[,] target, char[,] image)
+    {
+        int indexY = 0;
+        int indexX = 0;
+        
+        foreach (int Y in GetArrayRange(target.GetLength(0)))
+        {
+            foreach (int X in GetArrayRange(target.GetLength(1)))
+            {
+
+                target[Y, X] = image[indexY, indexX];
+                indexY++;
+
+                if (indexY >= image.GetLength(0))
+                {
+                    indexY = 0;
+                }
+                else if (indexX >= image.GetLength(1))
+                {
+                    indexX = 0;
+                }
+            }
+        }
+
+    }
 }

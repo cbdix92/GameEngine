@@ -3,7 +3,7 @@
 namespace GameEngine
 {
 
-    public static class RenderPipe
+    public static class Render
     {
 
         private static char[,] screen;
@@ -27,9 +27,9 @@ namespace GameEngine
 		public static void SetBackground(Image image)
 		{
 			imageBuffer = image.Get();
-			foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
+			foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
 			{
-				foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
+				foreach (int X in RCore.GetArrayRange(imageBuffer.GetLength(1)))
 				{
                     if (Y >= background.GetLength(0) || X >= background.GetLength(1))
                     {
@@ -50,9 +50,9 @@ namespace GameEngine
 			 */
 			 imageBuffer = image.Get();
 			 
-			 foreach (int Y in Utils.GetArrayRange(background.GetLength(0)))
+			 foreach (int Y in RCore.GetArrayRange(background.GetLength(0)))
 			 {
-				foreach (int X in Utils.GetArrayRange(background.GetLength(1)))
+				foreach (int X in RCore.GetArrayRange(background.GetLength(1)))
 				{					
 					background[Y, X] = imageBuffer[Y, X];
 				}
@@ -63,9 +63,9 @@ namespace GameEngine
         {
 
             // Fill screen with background
-            foreach (int Y in Utils.GetArrayRange(background.GetLength(0)))
+            foreach (int Y in RCore.GetArrayRange(background.GetLength(0)))
 			{
-				foreach (int X in Utils.GetArrayRange(background.GetLength(1)))
+				foreach (int X in RCore.GetArrayRange(background.GetLength(1)))
 				{
                     if (background[Y, X] != '\0')
                     {
@@ -85,9 +85,9 @@ namespace GameEngine
 				{
 					imageBuffer = sprite.image.Get();
 					
-					foreach (int Y in Utils.GetArrayRange(imageBuffer.GetLength(0)))
+					foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
 					{
-						foreach (int X in Utils.GetArrayRange(imageBuffer.GetLength(1)))
+						foreach (int X in RCore.GetArrayRange(imageBuffer.GetLength(1)))
 						{
 							if (imageBuffer[Y, X] == '\0' || Char.IsWhiteSpace(imageBuffer[Y, X]) ){ continue; }// skip blank spaces in the image
 							try
@@ -131,9 +131,9 @@ namespace GameEngine
 
             Console.Clear();
             // Draw the screen
-            foreach (int Y in Utils.GetArrayRange(screen.GetLength(0)))
+            foreach (int Y in RCore.GetArrayRange(screen.GetLength(0)))
             {
-                foreach (int X in Utils.GetArrayRange(screen.GetLength(1)))
+                foreach (int X in RCore.GetArrayRange(screen.GetLength(1)))
                 {
                     Console.Write(screen[Y, X]);
                 }
@@ -214,11 +214,11 @@ namespace GameEngine
              */
 
             // Instance the Image Array with proper size
-            size = Utils.CalculateArraySize(source);
+            size = RCore.CalculateArraySize(source);
 			image = new char[size[0], size[1]];
 			
 			// Convert string into char array and assign it to the proper position inside of the image array
-			Utils.StringToArray(ref image, source);
+			RCore.StringToArray(ref image, source);
 		}
 		
 		public char[,] Get()
