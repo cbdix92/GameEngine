@@ -47,6 +47,20 @@ public static class RCore
 
     }
 	
+	public static int CalculateKeyFrames(string animationSource)
+	{
+		int count = 0;
+		
+		foreach (char item in animationSource)
+		{
+			if (item == '\t')
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	public static void StringToArray(ref char[,] image, string source)
 	{
 		/*

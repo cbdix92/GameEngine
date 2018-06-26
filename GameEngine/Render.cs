@@ -155,6 +155,12 @@ namespace GameEngine
 
         }
 		
+		public Animation NewAnimation(string animationSource)
+		{
+			return new Animation("TEMP_LINE_TO_SATISFY_COMPILER");
+			
+		}
+		
     }
 
     public class Position
@@ -179,8 +185,8 @@ namespace GameEngine
 	
 	public class Image
 	{
-		char[,] image;
-        int[] size;
+		private char[,] image;
+        private int[] size;
 		
 		public Image()
 		{
@@ -221,4 +227,38 @@ namespace GameEngine
 			return image;
 		}
 	}
+	
+	public class Animation
+	{
+		/*
+		 * Images are stored in the animaton array.
+		 * The keyFrame is used to index the animation array, returning an Image to be rendered.
+		 *
+		 */
+		
+		int keyFrame = 0;
+		Image[] animation;
+		
+		string frameBuffer;
+		
+		public Animation(string animationSource)
+		{
+			animation = new Image[RCore.CalculateKeyFrames(animationSource)];
+			foreach (char item in animationSource)
+			{
+				if (item != '\t')
+				{
+					frameBuffer += item;
+				}
+				else if (item == '\t')
+				{
+					animation[keyFrame] = new Image(frameBuffer);
+					keyFrame++;
+				}
+			}
+			
+		}
+		
+	}
+
 }
