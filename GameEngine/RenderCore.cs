@@ -84,20 +84,25 @@ public static class RCore
         
         foreach (int Y in GetArrayRange(target.GetLength(0)))
         {
+            if (Y != 0)
+            {
+                indexY++;
+                indexX = 0;
+            }
+            if (indexY == image.GetLength(0))
+            {
+                indexY = 0;
+            }
             foreach (int X in GetArrayRange(target.GetLength(1)))
             {
-
-                target[Y, X] = image[indexY, indexX];
-                indexY++;
-
-                if (indexY >= image.GetLength(0))
-                {
-                    indexY = 0;
-                }
-                else if (indexX >= image.GetLength(1))
+                if (indexX == image.GetLength(1))
                 {
                     indexX = 0;
                 }
+                target[Y, X] = image[indexY, indexX];
+                indexX++;
+
+
             }
         }
 
