@@ -78,7 +78,7 @@ namespace GameEngine
 				if (sprite == null){continue;}
 				if (sprite.Active == true)
 				{
-					imageBuffer = sprite.image.Get();
+					imageBuffer = sprite.GetImage();
 					
 					foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
 					{
@@ -114,7 +114,7 @@ namespace GameEngine
 			}
 			
 			// Replace next null occurrence with a new instance of Sprite.
-			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), image, screen);
+			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), screen);
 			
 			// Return a reference to the Sprite we just created so we can issue commands from the top level.
 			return spriteList[spriteList.Length - 1];
@@ -150,7 +150,6 @@ namespace GameEngine
         public Sprite(Position position, char[,] screenRefrence)
         {
             this.position = position;
-			this.image = image;
 			this.screenRefrence = screenRefrence;
 			this.Active = true;
 
@@ -167,21 +166,31 @@ namespace GameEngine
 				Array.Resize(ref imageList, imageList.Length + 1);
 			}
 			
-			imageList[Array.IndexOf(imageList, null)] = new imageList(imageSource);
+			imageList[Array.IndexOf(imageList, null)] = new Image(imageSource);
 			
 			return imageList[imageList.Length - 1];
 		}
 		
 		public Animation NewAnimation(string animationSource)
 		{
-			RCore.ListUp<Animation>(ref animationList, source);
+			//RCore.ListUp<Animation>(ref animationList, animationSource);
+			if (animationList == null)
+			{
+				animationList = new Animation[1];
+			}
+			else
+			{
+				Array.Resize(ref animationList, animationList.Length + 1);
+			}
+			animationList[Array.IndexOf(animationList, null)] = new Animation(animationSource);
 			
 			return animationList[animationList.Length - 1];
 			
 		}
 		
-		public Image getImage()
+		public Image GetImage()
 		{
+			return imageList[0].Get(); // Temporary return to satisfy the compiler.
 			/*
 			 * Check Sprite's current state. 
 			 * Then check if that state has an associated animation or image to be displayed. 
