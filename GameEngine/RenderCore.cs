@@ -121,4 +121,22 @@ public static class RCore
         }
 
     }
+	
+	public static void ListUp<T>(ref targetList, string source)
+	{
+		if (targetList == null)
+		{
+			targetList = new T[1];
+		}
+		else
+		{
+			Array.Resize(ref targetList, targetList.Length + 1);
+		}
+		
+		targetList[Array.IndexOf(tagetList, null)] = new T(source);
+		
+	}
 }
+
+
+

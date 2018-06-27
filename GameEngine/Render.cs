@@ -113,7 +113,7 @@ namespace GameEngine
 				Array.Resize(ref spriteList, spriteList.Length + 1);
 			}
 			
-			// Replace next null occurence with a new instance of Sprite.
+			// Replace next null occurrence with a new instance of Sprite.
 			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), image, screen);
 			
 			// Return a reference to the Sprite we just created so we can issue commands from the top level.
@@ -141,12 +141,13 @@ namespace GameEngine
     {
 		
         public Position position;
-		public Image image;
+		public Image[] imageList;
+		public Animation[] animationList;
 		public bool Active;
 		public char[,] screenRefrence;
 
 		
-        public Sprite(Position position, Image image, char[,] screenRefrence)
+        public Sprite(Position position, char[,] screenRefrence)
         {
             this.position = position;
 			this.image = image;
@@ -155,9 +156,39 @@ namespace GameEngine
 
         }
 		
+		public Image NewImage(string imageSource)
+		{
+			if (imageList == null)
+			{
+				imageList = new Image[1];
+			}
+			else
+			{
+				Array.Resize(ref imageList, imageList.Length + 1);
+			}
+			
+			imageList[Array.IndexOf(imageList, null)] = new imageList(imageSource);
+			
+			return imageList[imageList.Length - 1];
+		}
+		
 		public Animation NewAnimation(string animationSource)
 		{
-			return new Animation("TEMP_LINE_TO_SATISFY_COMPILER");
+			RCore.ListUp<Animation>(ref animationList, source);
+			
+			return animationList[animationList.Length - 1];
+			
+		}
+		
+		public Image getImage()
+		{
+			/*
+			 * Check Sprite's current state. 
+			 * Then check if that state has an associated animation or image to be displayed. 
+			 * Then return that animation frame or image.
+			 *
+			 *
+			 */
 			
 		}
 		
@@ -195,7 +226,7 @@ namespace GameEngine
 		public Image(string source)
 		{
 			/* 
-             * Overload contructor method allowing an image to be added at instantiation time 
+             * Overload constructor method allowing an image to be added at instantiation time 
              */
 			Convert(source);
 		}
@@ -231,7 +262,7 @@ namespace GameEngine
 	public class Animation
 	{
 		/*
-		 * Images are stored in the animaton array.
+		 * Images are stored in the animation array.
 		 * The keyFrame is used to index the animation array, returning an Image to be rendered.
 		 *
 		 */
