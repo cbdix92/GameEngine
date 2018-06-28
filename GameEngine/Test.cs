@@ -12,17 +12,20 @@ namespace App
 			int playerPosX = 0;
 			
 			Render.Init(10, 10);
+
+            // Fill Background
+            Image backgroundFillTest = new Image("_");
+            Render.FillBackground(backgroundFillTest);
+
+            string animationTest = "O\n>>\n/\\n\tO\n<<\n/\\n\t";
+            Animation playerAnimation = new Animation(animationTest);
 			
-			string animationTest = "O\n>>\n/\\n\tO\n<<\n/\\n\t";
-			
-			// Fill Background
-			Image backgroundFillTest = new Image("_");
-			Render.FillBackground(backgroundFillTest);
+
 			
 			// Create a Sprite
 			string playerImageAsString = "O\n>>\n/\\";
-			Image playerImage = new Image(playerImageAsString);
-			Sprite TestSprite = Render.NewSprite(playerPosY, playerPosX, playerImage);
+			Sprite playerSprite = Render.NewSprite(playerPosY, playerPosX);
+            Image playerImage = playerSprite.NewImage(playerImageAsString);
 			
 			
 			
@@ -30,19 +33,19 @@ namespace App
 			Render.UpdateScreen();
 			Render.Draw();
 			Thread.Sleep(200);
-			TestSprite.position.Teleport(playerPosY++, playerPosX++);
+			playerSprite.position.Teleport(playerPosY++, playerPosX++);
 			Render.UpdateScreen();
 			Render.Draw();
 			Thread.Sleep(200);
-			TestSprite.position.Teleport(playerPosY++, playerPosX++);
+			playerSprite.position.Teleport(playerPosY++, playerPosX++);
 			Render.UpdateScreen();
 			Render.Draw();
 			Thread.Sleep(200);
-			TestSprite.position.Teleport(playerPosY++, playerPosX++);
+			playerSprite.position.Teleport(playerPosY++, playerPosX++);
 			Render.UpdateScreen();
 			Render.Draw();
 			Thread.Sleep(200);
-			TestSprite.position.Teleport(playerPosY++, playerPosX++);
+			playerSprite.position.Teleport(playerPosY++, playerPosX++);
 			Render.UpdateScreen();
 			Render.Draw();
 			

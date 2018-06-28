@@ -78,7 +78,7 @@ namespace GameEngine
 				if (sprite == null){continue;}
 				if (sprite.Active == true)
 				{
-					imageBuffer = sprite.GetImage();
+                    imageBuffer = sprite.GetImage();
 					
 					foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
 					{
@@ -101,17 +101,10 @@ namespace GameEngine
             SkipSpriteCheck:;
         }
 		
-		public static Sprite NewSprite(int Xpos, int Ypos, Image image)
+		public static Sprite NewSprite(int Xpos, int Ypos)
 		{
-			if (spriteList == null)
-			{
-				spriteList = new Sprite[1];
-			}
-			else
-			{
-				// Increment SpriteList size.
-				Array.Resize(ref spriteList, spriteList.Length + 1);
-			}
+            // Resize the list
+            RCore.ListUp<Sprite>(ref spriteList);
 			
 			// Replace next null occurrence with a new instance of Sprite.
 			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), screen);
@@ -139,32 +132,68 @@ namespace GameEngine
 	
     public class Sprite
     {
-		
+        public bool Active;
         public Position position;
+        public State currentState;
+
+        public Image image;
+        public Animation animation;
+
 		public Image[] imageList;
 		public Animation[] animationList;
-		public bool Active;
+        public State[] stateList;
+
+
 		public char[,] screenRefrence;
 
 		
-        public Sprite(Position position, char[,] screenRefrence)
+        public Sprite(Position newPosition, char[,] newScreenRefrence)
         {
-            this.position = position;
-			this.screenRefrence = screenRefrence;
-			this.Active = true;
+            position = newPosition;
+			screenRefrence = newScreenRefrence;
+            Active = true;
 
+        }
+        public State NewState(bool newState, string name)
+        {
+            // New State with NO Image or Animation
+
+            // Resize the list
+            RCore.ListUp<State>(ref stateList);
+
+            stateList[Array.IndexOf(stateList, null)] = new State(newState, name);
+
+            return stateList[stateList.Length - 1];
+        }
+
+        public State NewState(Image image, bool newState, string name)
+        {
+            // New State with Image
+
+            // Resize the list
+            RCore.ListUp<State>(ref stateList);
+
+            stateList[Array.IndexOf(stateList, null)] = new State(image, newState, name);
+
+            return stateList[stateList.Length - 1];
+        }
+
+        public State NewState(Animation animation, bool newState, string name)
+        {
+            // New State with Animation
+
+            // Resize the list
+            RCore.ListUp<State>(ref stateList);
+
+            stateList[Array.IndexOf(stateList, null)] = new State(animation, newState, name);
+
+            return stateList[stateList.Length - 1];
         }
 		
 		public Image NewImage(string imageSource)
 		{
-			if (imageList == null)
-			{
-				imageList = new Image[1];
-			}
-			else
-			{
-				Array.Resize(ref imageList, imageList.Length + 1);
-			}
+            // Resize the list
+            RCore.ListUp<Image>(ref imageList);
 			
 			imageList[Array.IndexOf(imageList, null)] = new Image(imageSource);
 			
@@ -173,31 +202,73 @@ namespace GameEngine
 		
 		public Animation NewAnimation(string animationSource)
 		{
-			//RCore.ListUp<Animation>(ref animationList, animationSource);
-			if (animationList == null)
-			{
-				animationList = new Animation[1];
-			}
-			else
-			{
-				Array.Resize(ref animationList, animationList.Length + 1);
-			}
+            // Resize the list
+			RCore.ListUp<Animation>(ref animationList);
+
 			animationList[Array.IndexOf(animationList, null)] = new Animation(animationSource);
 			
 			return animationList[animationList.Length - 1];
 			
 		}
+
+        public void ChangeState(string name)
+        {
+            foreach (int index in RCore.GetArrayRange(stateList.Length))
+            {
+                if (stateList[index].Name == name )
+                {
+                    stateList[index].state = true;
+                    if (currentState != null)
+                    {
+                        currentState.Reset();
+                        currentState = stateList[index];
+                    }
+                }
+
+
+            }
+        }
 		
-		public Image GetImage()
+		public char[,] GetImage()
 		{
-			return imageList[0].Get(); // Temporary return to satisfy the compiler.
-			/*
+            /*
 			 * Check Sprite's current state. 
 			 * Then check if that state has an associated animation or image to be displayed. 
 			 * Then return that animation frame or image.
 			 *
 			 *
 			 */
+
+
+            // Check if Sprite has any States that will yield an image
+            if (stateList != null)
+            {
+                foreach (int index in RCore.GetArrayRange(stateList.Length))
+                {
+                    if (stateList[index].state == true)
+                    {
+                        return stateList[index].GetImage().Get();
+                    }
+                }
+            }
+
+            // Check if Sprite has an Animation
+            else if (animation != null)
+            {
+                return animation.GetImage().Get();
+            }
+
+            // Finally check if Sprite has an Image
+            else if (image != null)
+            {
+                return image.Get();
+            }
+
+            // If Sprite does no contain any images to render then return and empty array.
+            return new char[0, 0];
+
+            
+
 			
 		}
 		
@@ -276,10 +347,10 @@ namespace GameEngine
 		 *
 		 */
 		
-		int keyFrame = 0;
-		Image[] animation;
+		private int keyFrame = 0;
+		private Image[] animation;
 		
-		string frameBuffer;
+		private string frameBuffer;
 		
 		public Animation(string animationSource)
 		{
@@ -288,17 +359,106 @@ namespace GameEngine
 			{
 				if (item != '\t')
 				{
-					frameBuffer += item;
+					frameBuffer = String.Concat(frameBuffer, item);
 				}
 				else if (item == '\t')
 				{
 					animation[keyFrame] = new Image(frameBuffer);
+                    frameBuffer = "";
 					keyFrame++;
 				}
 			}
+
+            keyFrame = 0;
 			
 		}
+
+        public Image GetImage()
+        {
+            // Loop the animation
+            if (keyFrame == animation.Length)
+            {
+                keyFrame = 0;
+            }
+
+            keyFrame++;
+            return animation[keyFrame - 1];
+        }
+
+        public void Reset()
+        {
+            // returns the object back to a starting position.
+            keyFrame = 0;
+        }
 		
 	}
+
+    public class State
+    {
+        // Only references are passed to the State class.
+        // The Image and Animation classes are instantiated in the Sprite class.
+        public Image imageReference;
+        public Animation animationReference;
+        public string Name { get; }
+
+        public bool state { get; set; }
+
+        public State(bool newState, string name)
+        {
+            state = newState;
+            Name = name;
+        }
+
+        public State(Image image, bool newState, string name)
+        {
+            imageReference = image;
+            state = newState;
+            Name = name;
+        }
+
+        public State(Animation animation, bool newState, string name)
+        {
+            animationReference = animation;
+            state = newState;
+            Name = name;
+        }
+
+        public void SetImage(Image image)
+        {
+            imageReference = image;
+        }
+
+        public void SetAnimation(Animation animation)
+        {
+            animationReference = animation;
+        }
+
+        public Image GetImage()
+        {
+            if (imageReference != null)
+            {
+                return imageReference;
+            }
+            else if (animationReference != null)
+            {
+                return animationReference.GetImage();
+            }
+            return new Image();
+        }
+
+        public void Reset()
+        {
+            if (animationReference != null)
+            {
+                animationReference.Reset();
+            }
+            state = false;
+
+        }
+
+
+
+
+    }
 
 }

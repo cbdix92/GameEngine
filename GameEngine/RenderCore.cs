@@ -122,7 +122,7 @@ public static class RCore
 
     }
 	
-	public static void ListUp<T> (ref T[] targetList, string source)
+	public static void ListUp<T> (ref T[] targetList)
 	{
 		if (targetList == null)
 		{
@@ -132,8 +132,6 @@ public static class RCore
 		{
 			Array.Resize(ref targetList, targetList.Length + 1);
 		}
-		
-		targetList[Array.IndexOf(targetList, null)] = (T)Activator.CreateInstance(typeof(T));
 		
 	}
 }
