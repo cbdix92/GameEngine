@@ -11,7 +11,7 @@ namespace GameEngine
 
         private static Sprite[] spriteList;
 		
-		// Temporary storage an image being written to the screen.
+		// Temporary storage for an image being written to the screen.
 		private static char[,] imageBuffer;
 
 
@@ -192,22 +192,25 @@ namespace GameEngine
 		
 		public Image NewImage(string imageSource)
 		{
-            // Resize the list
-            RCore.ListUp<Image>(ref imageList);
+			if (animation != null)
+            {
+                animation = null;
+            }
+			image = new Image(imageSource);
 			
-			imageList[Array.IndexOf(imageList, null)] = new Image(imageSource);
-			
-			return imageList[imageList.Length - 1];
+			return image;
 		}
 		
 		public Animation NewAnimation(string animationSource)
 		{
-            // Resize the list
-			RCore.ListUp<Animation>(ref animationList);
+            if (image != null)
+            {
+                image = null;
+            }
 
-			animationList[Array.IndexOf(animationList, null)] = new Animation(animationSource);
+			animation = new Animation(animationSource);
 			
-			return animationList[animationList.Length - 1];
+			return animation;
 			
 		}
 
