@@ -56,6 +56,10 @@ namespace GameEngine
 
         public static void UpdateScreen()
         {
+            /*
+             * Updates the screen buffer and prepares it to be written to the screen by the Draw() method
+             * 
+             */
 
             // Fill screen with background
             foreach (int Y in RCore.GetArrayRange(background.GetLength(0)))
@@ -154,44 +158,55 @@ namespace GameEngine
             Active = true;
 
         }
-        public State NewState(bool newState, string name)
+        public State NewState(string name)
         {
             // New State with NO Image or Animation
 
             // Resize the list
             RCore.ListUp<State>(ref stateList);
 
-            stateList[Array.IndexOf(stateList, null)] = new State(newState, name);
+            stateList[Array.IndexOf(stateList, null)] = new State(name);
 
             return stateList[stateList.Length - 1];
         }
 
-        public State NewState(Image image, bool newState, string name)
+        public State NewImageState(string imageSource, string name)
         {
             // New State with Image
 
-            // Resize the list
+            // Resize the imageList and add a new instance of Image
+            RCore.ListUp<Image>(ref imageList);
+            imageList[Array.IndexOf(imageList, null)] = new Image(imageSource);
+
+            // Resize the stateList and add a new instance of State
             RCore.ListUp<State>(ref stateList);
+            stateList[Array.IndexOf(stateList, null)] = new State(imageList[imageList.Length - 1], name);
 
-            stateList[Array.IndexOf(stateList, null)] = new State(image, newState, name);
-
+            // Return a reference of the State instance to the top level
             return stateList[stateList.Length - 1];
         }
 
-        public State NewState(Animation animation, bool newState, string name)
+        public State NewAnimationState(string animationSource, string name)
         {
             // New State with Animation
 
-            // Resize the list
+            // Resize the animationList and add a new instance of Animation
+            RCore.ListUp<Animation>(ref animationList);
+            animationList[Array.IndexOf(animationList, null)] = new Animation(animationSource);
+
+            // Resize the stateList and add a new instance of State
             RCore.ListUp<State>(ref stateList);
+            stateList[Array.IndexOf(stateList, null)] = new State(animationList[animationList.Length - 1], name);
 
-            stateList[Array.IndexOf(stateList, null)] = new State(animation, newState, name);
-
+            // Return a reference of the State instance to the top level
             return stateList[stateList.Length - 1];
         }
 		
-		public Image NewImage(string imageSource)
+		public Image NewStaticImage(string imageSource)
 		{
+            // New Image without a state attached. This will be dispayed at all times.
+
+            // Delete Animation if one exist. Can only have Image or Animation without a state system. Not both.
 			if (animation != null)
             {
                 animation = null;
@@ -201,8 +216,11 @@ namespace GameEngine
 			return image;
 		}
 		
-		public Animation NewAnimation(string animationSource)
+		public Animation NewStaticAnimation(string animationSource)
 		{
+            // New Animation without a state attached. This will be displayed at all times.
+
+            // Delete Image if one exist. Can only have Image or Animation without a state system. Not both.
             if (image != null)
             {
                 image = null;
@@ -216,6 +234,7 @@ namespace GameEngine
 
         public void ChangeState(string name)
         {
+            // Change currentState = State.name if State.name exist in the stateList.
             foreach (int index in RCore.GetArrayRange(stateList.Length))
             {
                 if (stateList[index].Name == name )
@@ -226,9 +245,11 @@ namespace GameEngine
                         currentState.Reset();
                         currentState = stateList[index];
                     }
+                    else if (currentState == null)
+                    {
+                        currentState = stateList[index];
+                    }
                 }
-
-
             }
         }
 		
@@ -406,23 +427,23 @@ namespace GameEngine
 
         public bool state { get; set; }
 
-        public State(bool newState, string name)
+        public State(string name)
         {
-            state = newState;
+            state = false;
             Name = name;
         }
 
-        public State(Image image, bool newState, string name)
+        public State(Image image, string name)
         {
             imageReference = image;
-            state = newState;
+            state = false;
             Name = name;
         }
 
-        public State(Animation animation, bool newState, string name)
+        public State(Animation animation, string name)
         {
             animationReference = animation;
-            state = newState;
+            state = false;
             Name = name;
         }
 
