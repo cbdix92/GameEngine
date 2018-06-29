@@ -14,7 +14,7 @@ namespace App
 			Render.Init(20, 20);
 
             // Fill Background
-            Image backgroundFillTest = new Image("_");
+            string backgroundFillTest = "_";
             Render.FillBackground(backgroundFillTest);
 
 			
@@ -25,7 +25,7 @@ namespace App
             //string playerImageAsString = "O\n>>\n/\\";
             //Image playerImage = playerSprite.NewImage(playerImageAsString);
             string animationTest = "~~~\tPPP\t<<<\t~~~\tLLL\t555\t";
-            Animation playerAnimation = playerSprite.NewAnimation(animationTest);
+            playerSprite.NewStaticAnimation(animationTest);
 			
 			
 			

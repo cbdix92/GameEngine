@@ -40,15 +40,16 @@ namespace GameEngine
 			}
 		}
 		
-		public static void FillBackground(Image image)
+		public static void FillBackground(string imageSource)
 		{
-			
-			/* 
+
+            /* 
 			 * Fill the background with Image object.
 			 * If the Image object is not large enough to fill the background, it will be tiled.
-			 * !!!NOT COMPLETE. DO NOT USE.!!!
+			 * 
 			 */
-			
+
+            Image image = new Image(imageSource);
 			imageBuffer = image.Get();
 			 
 			RCore.FillArray(ref background, imageBuffer);
