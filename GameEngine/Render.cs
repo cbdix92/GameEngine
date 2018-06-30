@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+
 
 namespace GameEngine
 {
@@ -366,12 +368,12 @@ namespace GameEngine
 	
 	public class Animation
 	{
-		/*
+        /*
 		 * Images are stored in the animation array.
 		 * The keyFrame is used to index the animation array, returning an Image to be rendered.
 		 *
 		 */
-		
+        private Stopwatch frameTimer = new Stopwatch();
 		private int keyFrame = 0;
 		private Image[] animation;
 		
@@ -400,6 +402,7 @@ namespace GameEngine
 
         public Image GetImage()
         {
+
             // Loop the animation
             if (keyFrame == animation.Length)
             {
@@ -410,10 +413,17 @@ namespace GameEngine
             return animation[keyFrame - 1];
         }
 
+        public void Start()
+        {
+            frameTimer.Start();
+        }
+
         public void Reset()
         {
             // returns the object back to a starting position.
             keyFrame = 0;
+            frameTimer.Stop();
+            frameTimer.Reset();
         }
 		
 	}
