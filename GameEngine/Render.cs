@@ -7,7 +7,7 @@ namespace GameEngine
 
     public static class Render
     {
-
+		public static int TargetFramesPerSecond {get; set;}
         private static char[,] screen;
         private static char[,] background;
 
@@ -15,10 +15,21 @@ namespace GameEngine
 		
 		// Temporary storage for an image being written to the screen.
 		private static char[,] imageBuffer;
+		
+		// Flags
+		public static bool ShowFpsCounter= false;
 
 
         public static void Init(int ScreenY, int ScreenX)
         {
+			LoopController.Init();
+			
+			// TargetFramesPerSecond not set. Set it to default value of 10.
+			if (TargetFramesPerSecond == 0)
+			{
+				TargetFramesPerSecond = 10;
+			}
+			
             if (screen == null || background == null)
             {
                 screen = new char[ScreenY, ScreenX];
@@ -125,6 +136,10 @@ namespace GameEngine
         {
 
             Console.Clear();
+			if (ShowFpsCounter == true)
+			{
+				Console.WriteLine(LoopController.displayFPS);
+			}
             // Draw the screen
             foreach (int Y in RCore.GetArrayRange(screen.GetLength(0)))
             {
@@ -134,6 +149,7 @@ namespace GameEngine
                 }
                 Console.WriteLine();
             }
+			LoopController.MainWait(TargetFramesPerSecond);
         }
     }
 	
@@ -434,7 +450,7 @@ namespace GameEngine
         // The Image and Animation classes are instantiated in the Sprite class.
         public Image imageReference;
         public Animation animationReference;
-        public string Name { get; }
+        public readonly string Name;
 
         public bool state { get; set; }
 
