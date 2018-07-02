@@ -7,7 +7,6 @@ namespace GameEngine
 
     public static class Render
     {
-		public static int TargetFramesPerSecond {get; set;}
         private static char[,] screen;
         private static char[,] background;
 
@@ -17,17 +16,17 @@ namespace GameEngine
 		private static char[,] imageBuffer;
 		
 		// Flags
-		public static bool ShowFpsCounter= false;
+		public static bool showStats = false;
 
 
         public static void Init(int ScreenY, int ScreenX)
         {
-			LoopController.Init();
+			Updates.Init();
 			
-			// TargetFramesPerSecond not set. Set it to default value of 10.
-			if (TargetFramesPerSecond == 0)
+			// FrameCap not set. Set it to default value of 10.
+			if (Updates.FrameCap == 0)
 			{
-				TargetFramesPerSecond = 10;
+				Updates.FrameCap = 10;
 			}
 			
             if (screen == null || background == null)
@@ -134,12 +133,11 @@ namespace GameEngine
 
 		public static void Draw()
         {
-
             Console.Clear();
-			if (ShowFpsCounter == true)
-			{
-				Console.WriteLine(LoopController.displayFPS);
-			}
+            if (showStats == true)
+            {
+                Console.WriteLine("FPS: {0} WaitTime: {1} ActiveSprites: {2} ", Updates.statFPS, Updates.statWaitTime, spriteList.Length);
+            }
             // Draw the screen
             foreach (int Y in RCore.GetArrayRange(screen.GetLength(0)))
             {
@@ -149,7 +147,6 @@ namespace GameEngine
                 }
                 Console.WriteLine();
             }
-			LoopController.MainWait(TargetFramesPerSecond);
         }
     }
 	

@@ -6,11 +6,11 @@ namespace App
 {
 	class AppClass
 	{
-		[STAThread]
+		
 		static void Main(string[] args)
 		{
-			Render.TargetFramesPerSecond = 5;
-			Render.ShowFpsCounter = true;
+			Updates.FrameCap = 10;
+			Render.showStats = true;
 			int playerPosY = 0;
 			int playerPosX = 0;
 			
@@ -31,18 +31,24 @@ namespace App
             //playerSprite.NewStaticAnimation(animationTest);
 			
 			int time = 0;
-			int elapsed = 100;
-			while(time < elapsed)
+			int endOfTime = 1000;
+			while(time < endOfTime)
 			{
+                // teleport the sprite back every five loops
 				if (time%5 == 0)
 				{
 					playerSprite.position.Teleport(0,0);
 				}
+                // move sprite across screen
 				playerSprite.position.PosY++;
 				playerSprite.position.PosX++;
+
 				Render.UpdateScreen();
 				Render.Draw();
+
 				time++;
+
+                Updates.Wait();
 			}
 		}
 	}
