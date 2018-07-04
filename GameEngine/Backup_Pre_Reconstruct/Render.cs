@@ -333,6 +333,113 @@ namespace GameEngine
 			PosX = X;
 		}
     }
+	
+	public class Image
+	{
+		private char[,] image;
+        private int[] size;
+		
+		public Image()
+		{
+			/* EMPTY CONSTRUCTOR METHOD DO NOT REMOVE! */
+		}
+		public Image(string source)
+		{
+			/* 
+             * Overload constructor method allowing an image to be added at instantiation time 
+             */
+			Convert(source);
+		}
+		
+		
+		public void Convert(string source)
+		{
+            /*
+             * Convert a string into a two-dimensional char array.
+             * string "  @  \n @@@ \n@@@@@"
+             * 
+             *         |___@___|
+             *         |__@@@__|
+             * becomes:|_@@@@@_| Inside of a two-dimensional matrix
+             * 
+             * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
+             */
+
+            // Instance the Image Array with proper size
+            size = RCore.CalculateArraySize(source);
+			image = new char[size[0], size[1]];
+			
+			// Convert string into char array and assign it to the proper position inside of the image array
+			RCore.StringToArray(ref image, source);
+		}
+		
+		public char[,] Get()
+		{
+			return image;
+		}
+	}
+	
+	public class Animation
+	{
+        /*
+		 * Images are stored in the animation array.
+		 * The keyFrame is used to index the animation array, returning an Image to be rendered.
+		 *
+		 */
+        private Stopwatch frameTimer = new Stopwatch();
+		private int keyFrame = 0;
+		private Image[] animation;
+		
+		private string frameBuffer;
+		
+		public Animation(string animationSource)
+		{
+			animation = new Image[RCore.CalculateKeyFrames(animationSource)];
+			foreach (char item in animationSource)
+			{
+				if (item != '\t')
+				{
+					frameBuffer = String.Concat(frameBuffer, item);
+				}
+				else if (item == '\t')
+				{
+					animation[keyFrame] = new Image(frameBuffer);
+                    frameBuffer = "";
+					keyFrame++;
+				}
+			}
+
+            keyFrame = 0;
+			
+		}
+
+        public Image GetImage()
+        {
+
+            // Loop the animation
+            if (keyFrame == animation.Length)
+            {
+                keyFrame = 0;
+            }
+
+            keyFrame++;
+            return animation[keyFrame - 1];
+        }
+
+        public void Start()
+        {
+            frameTimer.Start();
+        }
+
+        public void Reset()
+        {
+            // returns the object back to a starting position.
+            keyFrame = 0;
+            frameTimer.Stop();
+            frameTimer.Reset();
+        }
+		
+	}
 
     public class State
     {
