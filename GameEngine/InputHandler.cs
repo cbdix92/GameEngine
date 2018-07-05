@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace GameEngine
 {
-    static class KeyboardHandler
+    static class InputHandler
     {
 
 

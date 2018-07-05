@@ -5,7 +5,7 @@ namespace GameEngine
 {
     class ObjectStateMachine : Componet
     {
-		Dictionary<string, State> states = new Dictionary<string, State>;
+        Dictionary<string, State> states = new Dictionary<string, State>;
 		State currentState;
 
         public ObjectStateMachine()

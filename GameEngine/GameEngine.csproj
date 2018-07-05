@@ -45,12 +45,14 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Componet.cs" />
+    <Compile Include="GameLoop.cs" />
     <Compile Include="Gameobject.cs" />
     <Compile Include="Image.cs" />
-    <Compile Include="KeyboardHandler.cs" />
+    <Compile Include="InputHandler.cs" />
     <Compile Include="ObjectStateMachine.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="EventPublisher.cs" />
     <Compile Include="Updates.cs" />
     <Compile Include="Render.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
