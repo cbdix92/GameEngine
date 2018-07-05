@@ -9,9 +9,7 @@ namespace GameEngine
 
         public void AddGameobject()
         {
-            if (gameobjects == null)
-            { gameobjects = new Gameobject[1]; }
-
+			RCore.ListUp<Gameobject>(ref gameobjects);
             gameobjects[Array.IndexOf(gameobjects, null)] = new Gameobject();
         }
     }

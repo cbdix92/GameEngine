@@ -22,7 +22,7 @@ public static class RCore
     public static int[] CalculateArraySize(string source)
     {
         /* 
-         * Calculate the size needed for a two dimensional array to contain a string object seperated into chars. 
+         * Calculate the size needed for a two dimensional array to contain a string object separated into chars. 
          * Used when converting strings into two-dimensional arrays.
          * 
          */
@@ -115,8 +115,7 @@ public static class RCore
                 }
                 target[Y, X] = image[indexY, indexX];
                 indexX++;
-
-
+				
             }
         }
 
@@ -133,6 +132,26 @@ public static class RCore
 			Array.Resize(ref targetList, targetList.Length + 1);
 		}
 		
+	}
+	
+	public static void AnimationParser(ref Image[] animation, string animationSource)
+	{
+		int keyFrame = 0;
+		string frameBuffer;
+		
+		foreach (char item in animationSource)
+            {
+                if (item != '\t')
+                {
+                    frameBuffer = String.Concat(frameBuffer, item);
+                }
+                else if (item == '\t')
+                {
+                    animation[keyFrame] = new Image(frameBuffer);
+                    frameBuffer = "";
+                    keyFrame++;
+                }
+            }
 	}
 }
 

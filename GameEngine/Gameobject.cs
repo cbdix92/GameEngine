@@ -16,7 +16,8 @@ namespace GameEngine
 
         public void NewComponet(Componet componet)
         {
-
+			RCore.ListUp<Componet>(ref componets);
+			componets[componets.Length - 1] = componet;
         }
 
         public void ParentScene(Scene parentScene)

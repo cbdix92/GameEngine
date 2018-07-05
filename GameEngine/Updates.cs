@@ -8,7 +8,7 @@ namespace GameEngine
     public static class Updates
     {
 
-        // Wait method Vairiables
+        // Wait method Variables
         private static int lastUpdate = 0;
         private static long currentTime = 0;
         private static int fpsCounter;
@@ -28,7 +28,7 @@ namespace GameEngine
         // Stat outputs
         public static int statFPS;
         public static int statWaitTime;
-        public static int statMainLoop; // Dprectated. Do not use.
+        public static int statMainLoop; // Deprecated. Do not use.
 
         // Stopwatch instances
         private static Stopwatch loopTimer = new Stopwatch();
@@ -94,7 +94,7 @@ namespace GameEngine
 
                 // Adjust refreshRate
 				/* Where (w) = waitInMilliseconds , (m) = mainLoopCap , (a) = actualLoopsPerSecond
-				 * TOO SLOW w=w(a/m) Find the percentage diffrence of the (m)ainLoopCap and (a)ctual then decrease it from the (w)ait time.
+				 * TOO SLOW w=w(a/m) Find the percentage difference of the (m)ainLoopCap and (a)ctual then decrease it from the (w)ait time.
 				 * TOO FAST w=w/(a/m)) This does the same thing, but instead of decreasing, it increases the (w)ait time, making the loop slower.
 				 * 
 				 */

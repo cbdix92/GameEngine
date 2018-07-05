@@ -9,35 +9,23 @@ namespace GameEngine
 		 * The keyFrame is used to index the animation array, returning an Image to be rendered.
 		 *
 		 */
+		
+		private Image[] animation;
         private bool isActive;
         private int keyFrame = 0;
-        private Image[] animation;
-
-        private string frameBuffer;
 
         public Animation(string animationSource)
         {
             animation = new Image[RCore.CalculateKeyFrames(animationSource)];
-            foreach (char item in animationSource)
-            {
-                if (item != '\t')
-                {
-                    frameBuffer = String.Concat(frameBuffer, item);
-                }
-                else if (item == '\t')
-                {
-                    animation[keyFrame] = new Image(frameBuffer);
-                    frameBuffer = "";
-                    keyFrame++;
-                }
-            }
-
-            keyFrame = 0;
+			RCore.AnimationParser(ref animation, animationSource)
 
         }
         public void Update()
         {
-            keyFrame++;
+			if (isActive)
+			{
+				keyFrame++;
+			}
         }
 
         public Image GetImage()
@@ -64,7 +52,6 @@ namespace GameEngine
 
         public void Reset()
         {
-            // returns the object back to a starting position.
             keyFrame = 0;
         }
 

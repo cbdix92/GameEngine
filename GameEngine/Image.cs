@@ -13,9 +13,6 @@ namespace GameEngine
         }
         public Image(string source)
         {
-            /* 
-             * Overload constructor method allowing an image to be added at instantiation time 
-             */
             Convert(source);
         }
 
@@ -41,9 +38,10 @@ namespace GameEngine
             RCore.StringToArray(ref image, source);
         }
 
-        public char[,] Get()
-        {
-            return image;
-        }
+		public void Update()
+		{
+			// Queue an event in the render queue
+			// EventSender.SendEvent("Render", this.image);
+		}
     }
 }
