@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
-    class ObjectStateMachine : Componet
+    class GameobjectStateMachine : Componet
     {
-        Dictionary<string, State> states = new Dictionary<string, State>;
+        Dictionary<string, State> states = new Dictionary<string, State>();
 		State currentState;
 
         public ObjectStateMachine()
@@ -32,6 +32,7 @@ namespace GameEngine
     class State
     {
 		string name;
+		
 		public State(string name)
 		{
 			this.name = name;

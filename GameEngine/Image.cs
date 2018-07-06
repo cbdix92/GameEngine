@@ -37,11 +37,16 @@ namespace GameEngine
             // Convert string into char array and assign it to the proper position inside of the image array
             RCore.StringToArray(ref image, source);
         }
+		
+		public char[,] Get()
+		{
+			return image;
+		}
 
 		public void Update()
 		{
-			// Queue an event in the render queue
-			// EventSender.SendEvent("Render", this.image);
+			// Raise Render Event.
+			// ...
 		}
     }
 }

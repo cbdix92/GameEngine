@@ -1,16 +1,23 @@
 ﻿using System;
+using Syatem.Collections.Generic;
+
 
 namespace GameEngine
 {
     class Scene
     {
-        Gameobject[] gameobjects;
+        //Gameobject[] gameobjects;
+		public Dictionary<string, Gameobject> gameobjects = new Dictionary<string, Gameobject>();
 
 
-        public void AddGameobject()
+        public void AddGameobject(string name)
         {
-			RCore.ListUp<Gameobject>(ref gameobjects);
-            gameobjects[Array.IndexOf(gameobjects, null)] = new Gameobject();
+			gameobjects.Add(name, new Gameobject(name));
         }
+		
+		publi void Update()
+		{
+			// Call Update method on each Gameobject inside of the scene
+		}
     }
 }

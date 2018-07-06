@@ -10,7 +10,6 @@ namespace GameEngine
         private static char[,] screen;
         private static char[,] background;
 
-        private static Sprite[] spriteList;
 		
 		// Temporary storage for an image being written to the screen.
 		private static char[,] imageBuffer;
@@ -35,37 +34,6 @@ namespace GameEngine
                 background = new char[ScreenY, ScreenX];
             }
         }
-		
-		public static void SetBackground(Image image)
-		{
-			imageBuffer = image.Get();
-			foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
-			{
-				foreach (int X in RCore.GetArrayRange(imageBuffer.GetLength(1)))
-				{
-                    if (Y >= background.GetLength(0) || X >= background.GetLength(1))
-                    {
-                        continue;
-                    }
-                    background[Y, X] = imageBuffer[Y, X];
-				}
-			}
-		}
-		
-		public static void FillBackground(string imageSource)
-		{
-
-            /* 
-			 * Fill the background with Image object.
-			 * If the Image object is not large enough to fill the background, it will be tiled.
-			 * 
-			 */
-
-            Image image = new Image(imageSource);
-			imageBuffer = image.Get();
-			 
-			RCore.FillArray(ref background, imageBuffer);
-		}
 
         public static void UpdateScreen()
         {
@@ -306,100 +274,6 @@ namespace GameEngine
 
             // If Sprite does no contain any images to render then return and empty array.
             return new char[0, 0];
-
-            
-
-			
-		}
-		
-    }
-
-    public class Position
-    {
-        public int PosY { get; set; }
-        public int PosX { get; set; }
-		public char[,] screenRefrence;
-
-        public Position(int X, int Y, char[,] screenRefrence)
-        {
-            PosY = Y;
-			PosX = X;
-			this.screenRefrence = screenRefrence;
-        }
-		
-		public void Teleport(int X, int Y)
-		{
-			PosY = Y;
-			PosX = X;
 		}
     }
-
-    public class State
-    {
-        // Only references are passed to the State class.
-        // The Image and Animation classes are instantiated in the Sprite class.
-        public Image imageReference;
-        public Animation animationReference;
-        public readonly string Name;
-
-        public bool state { get; set; }
-
-        public State(string name)
-        {
-            state = false;
-            Name = name;
-        }
-
-        public State(Image image, string name)
-        {
-            imageReference = image;
-            state = false;
-            Name = name;
-        }
-
-        public State(Animation animation, string name)
-        {
-            animationReference = animation;
-            state = false;
-            Name = name;
-        }
-
-        public void SetImage(Image image)
-        {
-            imageReference = image;
-        }
-
-        public void SetAnimation(Animation animation)
-        {
-            animationReference = animation;
-        }
-
-        public Image GetImage()
-        {
-            if (imageReference != null)
-            {
-                return imageReference;
-            }
-            else if (animationReference != null)
-            {
-                return animationReference.GetImage();
-            }
-            return new Image();
-        }
-
-        public void Reset()
-        {
-            if (animationReference != null)
-            {
-                animationReference.Reset();
-            }
-            state = false;
-
-        }
-
-
-
-
-    }
-
 }

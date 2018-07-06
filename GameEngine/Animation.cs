@@ -25,6 +25,9 @@ namespace GameEngine
 			if (isActive)
 			{
 				keyFrame++;
+				
+				// Raise Render Event
+				// ...
 			}
         }
 

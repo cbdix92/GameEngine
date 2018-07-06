@@ -5,8 +5,9 @@ namespace GameEngine
 {
     class Gameobject
     {
-        string name;
-        Componet[] componets;
+		Dictionary<string, Componet> componets = new Dictionary<string, Componet>();
+		
+		string name;
         Scene parentScene = null;
 
         public Gameobject()
@@ -14,15 +15,29 @@ namespace GameEngine
             componets = new Componet[1] { new Transform() };
         }
 
-        public void NewComponet(Componet componet)
+        public void NewComponet(string name, Componet componet)
         {
-			RCore.ListUp<Componet>(ref componets);
-			componets[componets.Length - 1] = componet;
+			componets.Add(name, componet);
         }
+		
+		public void RemoveComponet(string name)
+		{
+			componets.Remove(name);
+		}
 
         public void ParentScene(Scene parentScene)
         {
             this.parentScene = parentScene;
         }
+		
+		public void Update()
+		{
+			// Call Update method on each Componet of the Gameobject.
+		}
     }
+	
+	class Componet
+	{
+		// Base class used by componets of the Gameobject class.
+	}
 }

@@ -4,7 +4,7 @@ namespace GameEngine
 {
     class Transform : Componet
     {
-        Vector2 position;
+        private Vector2 position;
 
         public Transform()
         {
