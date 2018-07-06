@@ -5,20 +5,30 @@ using System.Diagnostics;
 namespace GameEngine
 {
 
-    public static class Render
+    public class Render
     {
-        private static char[,] screen;
-        private static char[,] background;
+        private char[,] screen;
+        private char[,] background;
+		
+		private object parentScene;
+		
+		private object[] sceneObjectsToRender;
+		private Background[] backgroundsToRender;
 
 		
 		// Temporary storage for an image being written to the screen.
-		private static char[,] imageBuffer;
+		private char[,] imageBuffer;
 		
 		// Flags
-		public static bool showStats = false;
+		public bool showStats = false;
 
-
-        public static void Init(int ScreenY, int ScreenX)
+		
+		public Render(object parentScene)
+		{
+			this.parentScene = parentScene;
+		}
+		
+        public void Init(int ScreenY, int ScreenX)
         {
 			Updates.Init();
 			
@@ -35,8 +45,19 @@ namespace GameEngine
             }
         }
 
-        public static void UpdateScreen()
+        public void UpdateScreen()
         {
+			// Check backgroundsToRender and write each one to the screen.
+			// ...
+			
+			// Check sceneObjectsToRender and write each on to the screen.
+			// ...
+			
+			
+			
+			
+			
+			//*******************************************************************************************
             /*
              * Updates the screen buffer and prepares it to be written to the screen by the Draw() method
              * 
@@ -85,27 +106,13 @@ namespace GameEngine
 			}
             SkipSpriteCheck:;
         }
-		
-		public static Sprite NewSprite(int Xpos, int Ypos)
-		{
-            // Resize the list
-            RCore.ListUp<Sprite>(ref spriteList);
-			
-			// Replace next null occurrence with a new instance of Sprite.
-			spriteList[Array.IndexOf(spriteList, null)] = new Sprite(new Position(Xpos, Ypos, screen), screen);
-			
-			// Return a reference to the Sprite we just created so we can issue commands from the top level.
-			return spriteList[spriteList.Length - 1];
-			
-		}
 
-		public static void Draw()
+		public void Draw()
         {
             Console.Clear();
-            if (showStats == true)
-            {
-                Console.WriteLine("FPS: {0} WaitTime: {1} ActiveSprites: {2} ", Updates.statFPS, Updates.statWaitTime, spriteList.Length);
-            }
+			
+            if (showStats) { DrawStats; }
+			
             // Draw the screen
             foreach (int Y in RCore.GetArrayRange(screen.GetLength(0)))
             {
@@ -116,6 +123,11 @@ namespace GameEngine
                 Console.WriteLine();
             }
         }
+		
+		public void DrawStats
+		{
+			Console.WriteLine("FPS: {0} WaitTime: {1} ActiveSprites: {2} ", Updates.statFPS, Updates.statWaitTime, spriteList.Length);
+		}
     }
 	
     public class Sprite

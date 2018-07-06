@@ -6,8 +6,14 @@ namespace GameEngine
 {
     class Scene
     {
-        //Gameobject[] gameobjects;
+        Render render;
+		
 		public Dictionary<string, Gameobject> gameobjects = new Dictionary<string, Gameobject>();
+		
+		public Scene()
+		{
+			render = new Render(this);
+		}
 
 
         public void AddGameobject(string name)
