@@ -15,7 +15,7 @@ namespace GameEngine
             componets = new Componet[1] { new Transform() };
         }
 
-        public void NewComponet(string name, Componet componet)
+        public void AddComponet(string name, Componet componet)
         {
 			componets.Add(name, componet);
         }
@@ -38,6 +38,5 @@ namespace GameEngine
 	
 	class Componet
 	{
-		// Base class used by componets of the Gameobject class.
 	}
 }

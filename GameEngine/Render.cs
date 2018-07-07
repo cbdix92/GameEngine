@@ -8,9 +8,8 @@ namespace GameEngine
     public class Render
     {
         private char[,] screen;
-        private char[,] background;
 		
-		private object parentScene;
+		private Scene parentScene;
 		
 		private object[] sceneObjectsToRender;
 		private Background[] backgroundsToRender;
@@ -23,27 +22,14 @@ namespace GameEngine
 		public bool showStats = false;
 
 		
-		public Render(object parentScene)
+		public Render(Scene parentScene)
 		{
+			Updates.Init()
+			
 			this.parentScene = parentScene;
+			
+			screen = new char[Display.ScreenY, Display.ScreenX];
 		}
-		
-        public void Init(int ScreenY, int ScreenX)
-        {
-			Updates.Init();
-			
-			// FrameCap not set. Set it to default value of 10.
-			if (Updates.FrameCap == 0)
-			{
-				Updates.FrameCap = 10;
-			}
-			
-            if (screen == null || background == null)
-            {
-                screen = new char[ScreenY, ScreenX];
-                background = new char[ScreenY, ScreenX];
-            }
-        }
 
         public void UpdateScreen()
         {
@@ -129,6 +115,11 @@ namespace GameEngine
 			Console.WriteLine("FPS: {0} WaitTime: {1} ActiveSprites: {2} ", Updates.statFPS, Updates.statWaitTime, spriteList.Length);
 		}
     }
+	
+	public class RenderCallEventArgs : EventArgs
+	{
+		Image image;
+	}
 	
     public class Sprite
     {

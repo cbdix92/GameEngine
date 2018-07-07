@@ -4,17 +4,27 @@ namespace GameEngine
 {
     class Image : Componet
     {
+		public delegate void RenderCallEventHandler(object source, EventArgs args);
+		public event RenderCallEventHandler RenderCall;
+		
         private char[,] image;
         private int[] size;
 
         public Image()
         {
-            /* EMPTY CONSTRUCTOR METHOD DO NOT REMOVE! */
         }
         public Image(string source)
         {
             Convert(source);
         }
+		
+		protected virtual void OnRenderCall()
+		{
+			if (RenderCall != null)
+			{
+				RenderCall(this, new RenderCallEventArgs() { image = this.image; })
+			}
+		}
 
 
         public void Convert(string source)
@@ -40,6 +50,7 @@ namespace GameEngine
 		
 		public char[,] Get()
 		{
+			// Used by the Background methods. Do not remove.
 			return image;
 		}
 
