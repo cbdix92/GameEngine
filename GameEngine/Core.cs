@@ -1,6 +1,7 @@
 ﻿using System;
+using GameEngine;
 
-public static class RCore
+public static class Core
 {
     public static int[] GetArrayRange(int sourceArrayLength)
     {
@@ -137,7 +138,7 @@ public static class RCore
 	public static void AnimationParser(ref Image[] animation, string animationSource)
 	{
 		int keyFrame = 0;
-		string frameBuffer;
+		string frameBuffer = "";
 		
 		foreach (char item in animationSource)
             {

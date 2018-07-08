@@ -2,7 +2,7 @@
 
 namespace GameEngine
 {
-    class Animation : Componet
+    public class Animation : Componet
     {
         /*
 		 * Images are stored in the animation array.
@@ -16,8 +16,8 @@ namespace GameEngine
 
         public Animation(string animationSource)
         {
-            animation = new Image[RCore.CalculateKeyFrames(animationSource)];
-			RCore.AnimationParser(ref animation, animationSource)
+            animation = new Image[Core.CalculateKeyFrames(animationSource)];
+            Core.AnimationParser(ref animation, animationSource);
 
         }
         public void Update()

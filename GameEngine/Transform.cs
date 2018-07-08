@@ -2,7 +2,7 @@
 
 namespace GameEngine
 {
-    class Transform : Componet
+    public class Transform : Componet
     {
         private Vector2 position;
 
@@ -27,8 +27,8 @@ namespace GameEngine
 
     class Vector2
     {
-        int X;
-        int Y;
+        public int X;
+        public int Y;
 		
         public Vector2(int x, int y)
         {

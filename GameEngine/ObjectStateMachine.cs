@@ -8,7 +8,7 @@ namespace GameEngine
         Dictionary<string, State> states = new Dictionary<string, State>();
 		State currentState;
 
-        public ObjectStateMachine()
+        public GameobjectStateMachine()
         {
         }
 

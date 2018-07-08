@@ -18,7 +18,6 @@ namespace GameEngine
             get { return frameCap; }
             set { frameCap = 1000 / value; }
         }
-		this.FrameCap = 10;
 
 
         // LoopController method variables. Deprecated Method. Do not use.

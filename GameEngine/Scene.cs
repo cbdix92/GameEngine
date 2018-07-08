@@ -1,27 +1,33 @@
 ﻿using System;
-using Syatem.Collections.Generic;
+using System.Collections.Generic;
 
 
 namespace GameEngine
 {
-    class Scene
+    public class Scene
     {
-        Render render;
-		
-		public Dictionary<string, Gameobject> gameobjects = new Dictionary<string, Gameobject>();
+        public Render render;
+
+        public Dictionary<string, Gameobject> gameobjects;
 		
 		public Scene()
 		{
-			render = new Render(this);
+            gameobjects = new Dictionary<string, Gameobject>();
+            render = new Render(this);
 		}
 
 
         public void AddGameobject(string name)
         {
-			gameobjects.Add(name, new Gameobject(name));
+			gameobjects.Add(name, new Gameobject(this, name));
+        }
+
+        public void AddBackground(string name)
+        {
+            gameobjects.Add(name, new Background(this, name));
         }
 		
-		publi void Update()
+		public void Update()
 		{
 			// Call Update method on each Gameobject inside of the scene
 		}

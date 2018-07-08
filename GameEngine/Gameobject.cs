@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace GameEngine
 {
-    class Gameobject
+    public class Gameobject
     {
-		Dictionary<string, Componet> componets = new Dictionary<string, Componet>();
+		public Dictionary<string, Componet> componets = new Dictionary<string, Componet>();
 		
-		string name;
-        Scene parentScene = null;
+		public string name;
+        private Scene parentScene = null;
+        public Transform transform;
 
-        public Gameobject()
+        public Gameobject(Scene parentScene, string name)
         {
-            componets = new Componet[1] { new Transform() };
+            transform = new Transform();
+            this.name = name;
+            this.parentScene = parentScene;
         }
 
         public void AddComponet(string name, Componet componet)
@@ -34,9 +38,13 @@ namespace GameEngine
 		{
 			// Call Update method on each Componet of the Gameobject.
 		}
+
+        public void FillBackground(Image image)
+        {
+        }
     }
 	
-	class Componet
+	public class Componet
 	{
 	}
 }

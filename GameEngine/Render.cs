@@ -11,24 +11,18 @@ namespace GameEngine
 		
 		private Scene parentScene;
 		
-		private object[] sceneObjectsToRender;
 		private Background[] backgroundsToRender;
+		private Image[] imagesToRender;
 
-		
-		// Temporary storage for an image being written to the screen.
-		private char[,] imageBuffer;
-		
 		// Flags
 		public bool showStats = false;
 
 		
 		public Render(Scene parentScene)
 		{
-			Updates.Init()
-			
+            Updates.Init();
+            screen = new char[Display.ScreenY, Display.ScreenX];
 			this.parentScene = parentScene;
-			
-			screen = new char[Display.ScreenY, Display.ScreenX];
 		}
 
         public void UpdateScreen()
@@ -36,7 +30,7 @@ namespace GameEngine
 			// Check backgroundsToRender and write each one to the screen.
 			// ...
 			
-			// Check sceneObjectsToRender and write each on to the screen.
+			// Check imagesToRender and write each on to the screen.
 			// ...
 			
 			
@@ -50,9 +44,9 @@ namespace GameEngine
              */
 
             // Fill screen with background
-            foreach (int Y in RCore.GetArrayRange(background.GetLength(0)))
+            /*foreach (int Y in Core.GetArrayRange(background.GetLength(0)))
 			{
-				foreach (int X in RCore.GetArrayRange(background.GetLength(1)))
+				foreach (int X in Core.GetArrayRange(background.GetLength(1)))
 				{
                     if (background[Y, X] != '\0')
                     {
@@ -72,9 +66,9 @@ namespace GameEngine
 				{
                     imageBuffer = sprite.GetImage();
 					
-					foreach (int Y in RCore.GetArrayRange(imageBuffer.GetLength(0)))
+					foreach (int Y in Core.GetArrayRange(imageBuffer.GetLength(0)))
 					{
-						foreach (int X in RCore.GetArrayRange(imageBuffer.GetLength(1)))
+						foreach (int X in Core.GetArrayRange(imageBuffer.GetLength(1)))
 						{
 							if (imageBuffer[Y, X] == '\0' || Char.IsWhiteSpace(imageBuffer[Y, X]) ){ continue; }// skip blank spaces in the image
 							try
@@ -90,19 +84,19 @@ namespace GameEngine
 					}
 				}
 			}
-            SkipSpriteCheck:;
+            SkipSpriteCheck:;*/
         }
 
 		public void Draw()
         {
             Console.Clear();
 			
-            if (showStats) { DrawStats; }
+            if (showStats) { DrawStats(); }
 			
             // Draw the screen
-            foreach (int Y in RCore.GetArrayRange(screen.GetLength(0)))
+            foreach (int Y in Core.GetArrayRange(screen.GetLength(0)))
             {
-                foreach (int X in RCore.GetArrayRange(screen.GetLength(1)))
+                foreach (int X in Core.GetArrayRange(screen.GetLength(1)))
                 {
                     Console.Write(screen[Y, X]);
                 }
@@ -110,18 +104,13 @@ namespace GameEngine
             }
         }
 		
-		public void DrawStats
+		public void DrawStats()
 		{
-			Console.WriteLine("FPS: {0} WaitTime: {1} ActiveSprites: {2} ", Updates.statFPS, Updates.statWaitTime, spriteList.Length);
+			Console.WriteLine(" FPS: {0} WaitTime: {1} ", Updates.statFPS, Updates.statWaitTime);
 		}
     }
 	
-	public class RenderCallEventArgs : EventArgs
-	{
-		Image image;
-	}
-	
-    public class Sprite
+    /*public class Sprite
     {
         public bool Active;
         public Position position;
@@ -150,7 +139,7 @@ namespace GameEngine
             // New State with NO Image or Animation
 
             // Resize the list
-            RCore.ListUp<State>(ref stateList);
+            Core.ListUp<State>(ref stateList);
 
             stateList[Array.IndexOf(stateList, null)] = new State(name);
 
@@ -162,11 +151,11 @@ namespace GameEngine
             // New State with Image
 
             // Resize the imageList and add a new instance of Image
-            RCore.ListUp<Image>(ref imageList);
+            Core.ListUp<Image>(ref imageList);
             imageList[Array.IndexOf(imageList, null)] = new Image(imageSource);
 
             // Resize the stateList and add a new instance of State
-            RCore.ListUp<State>(ref stateList);
+            Core.ListUp<State>(ref stateList);
             stateList[Array.IndexOf(stateList, null)] = new State(imageList[imageList.Length - 1], name);
 
             // Return a reference of the State instance to the top level
@@ -178,11 +167,11 @@ namespace GameEngine
             // New State with Animation
 
             // Resize the animationList and add a new instance of Animation
-            RCore.ListUp<Animation>(ref animationList);
+            Core.ListUp<Animation>(ref animationList);
             animationList[Array.IndexOf(animationList, null)] = new Animation(animationSource);
 
             // Resize the stateList and add a new instance of State
-            RCore.ListUp<State>(ref stateList);
+            Core.ListUp<State>(ref stateList);
             stateList[Array.IndexOf(stateList, null)] = new State(animationList[animationList.Length - 1], name);
 
             // Return a reference of the State instance to the top level
@@ -222,7 +211,7 @@ namespace GameEngine
         public void ChangeState(string name)
         {
             // Change currentState = State.name if State.name exist in the stateList.
-            foreach (int index in RCore.GetArrayRange(stateList.Length))
+            foreach (int index in Core.GetArrayRange(stateList.Length))
             {
                 if (stateList[index].Name == name )
                 {
@@ -242,19 +231,15 @@ namespace GameEngine
 		
 		public char[,] GetImage()
 		{
-            /*
-			 * Check Sprite's current state. 
-			 * Then check if that state has an associated animation or image to be displayed. 
-			 * Then return that animation frame or image.
-			 *
-			 *
-			 */
+			 // Check Sprite's current state. 
+			 // Then check if that state has an associated animation or image to be displayed. 
+			 // Then return that animation frame or image
 
 
             // Check if Sprite has any States that will yield an image
             if (stateList != null)
             {
-                foreach (int index in RCore.GetArrayRange(stateList.Length))
+                foreach (int index in Core.GetArrayRange(stateList.Length))
                 {
                     if (stateList[index].state == true)
                     {
@@ -278,5 +263,5 @@ namespace GameEngine
             // If Sprite does no contain any images to render then return and empty array.
             return new char[0, 0];
 		}
-    }
+    }*/
 }
