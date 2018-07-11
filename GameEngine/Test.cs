@@ -13,11 +13,11 @@ namespace App
 			
 			Scene scene1 = new Scene();
 			
-			scene1.AddGameobject("ball");
-			scene1.gameobjects["ball"].AddComponet("ball_image", new Image("O"));
-            scene1.gameobjects["ball"].transform.Teleport(5, 5);
-            scene1.AddBackground("background1");
-            scene1.gameobjects["background1"].FillBackground(new Image("_"));
+			Gameobject ball = scene1.AddGameobject("ball");
+			ball.AddComponet("ball_image", new Image("O"));
+            ball.transform.Teleport(5, 5);
+            Background background1 = scene1.AddBackground(0, "background1");
+            background1.FillBackground(new Image("_"));
 			
 		}
 	}

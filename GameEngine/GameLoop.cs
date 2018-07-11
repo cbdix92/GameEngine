@@ -10,11 +10,15 @@ namespace GameEngine
         {
             while(!quit)
             {
-				// User Input
-				
-				// Update Gameobjects
-				
-				// Render the Scene
+                // User Input
+                // See System.Windows.Input.AddKeyDownHandler() => GameEngine.Input.Update(). This is how we will check input whenever ANY key is pressed ...
+
+                // Update Gameobjects
+
+                // Render the Scene
+
+                // Timestep
+                Updates.Wait();
             }
 
         }
