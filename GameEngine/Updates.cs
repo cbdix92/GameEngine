@@ -9,9 +9,11 @@ namespace GameEngine
     {
 
         // Wait method Variables
+        public static int deltaTime = 100;
         private static int lastUpdate = 0;
         private static long currentTime = 0;
         private static int fpsCounter;
+
         private static int frameCap;
         public static int FrameCap
         {
@@ -19,15 +21,9 @@ namespace GameEngine
             set { frameCap = 1000 / value; }
         }
 
-
-        // LoopController method variables. Deprecated Method. Do not use.
-        public static int waitInMilliseconds = 100;
-        private static int actualLoopsPerSecond = 0;
-        public static int mainLoopCap = 10;
-
         // Stat outputs
         public static int statFPS;
-        public static int statWaitTime;
+        public static int statDeltaTime;
         public static int statMainLoop; // Deprecated. Do not use.
 
         // Stopwatch instances
@@ -49,12 +45,18 @@ namespace GameEngine
             fpsCounter++;
 
             currentTime = loopTimer.ElapsedMilliseconds;
-            statWaitTime = Math.Abs(FrameCap - ((int)currentTime - lastUpdate));
 
-            Thread.Sleep(Math.Abs(FrameCap-((int)currentTime - lastUpdate)));
+            deltaTime = Math.Abs(FrameCap - ((int)currentTime - lastUpdate));
 
-            loopTimer.Reset();
-            loopTimer.Start();
+            statDeltaTime = deltaTime;
+
+            Thread.Sleep(deltaTime);
+
+            if (loopTimer.ElapsedMilliseconds > 600_000) // Reset the Clock every 10 minutes
+            {
+                loopTimer.Reset();
+                loopTimer.Start();
+            }
 
             lastUpdate = (int)loopTimer.ElapsedMilliseconds;
 
@@ -71,16 +73,16 @@ namespace GameEngine
 
         }
 
-        public static void LoopController() // Deprecated. Do not use.
+        /*public static void LoopController() // Deprecated. Do not use.
         {
-            /*
-             * Limit the speed of th main game loop to only update equal to @mainLoopCap per second.
-             */
+               //
+              // Limit the speed of th main game loop to only update equal to @mainLoopCap per second.
+             //
             // Count the loops. This is reset after one second has passed.
             actualLoopsPerSecond++;
             // Slow GameLoop
 			//Console.WriteLine("BEFORE WAIT - TIME: {0}, ACTUAL_LOOPS: {1}", loopTimer.ElapsedMilliseconds, actualLoopsPerSecond);
-            Thread.Sleep(waitInMilliseconds);
+            Thread.Sleep(deltaTime);
 			//Console.WriteLine("AFTER WAIT - TIME: {0}, ACTUAL_LOOPS: {1}", loopTimer.ElapsedMilliseconds, actualLoopsPerSecond);
             // Check stopWatch to if one second has passed yet
             if (loopTimer.ElapsedMilliseconds >= 1000)
@@ -93,23 +95,23 @@ namespace GameEngine
                 loopTimer.Start();
 
                 // Adjust refreshRate
-				/* Where (w) = waitInMilliseconds , (m) = mainLoopCap , (a) = actualLoopsPerSecond
-				 * TOO SLOW w=w(a/m) Find the percentage difference of the (m)ainLoopCap and (a)ctual then decrease it from the (w)ait time.
-				 * TOO FAST w=w/(a/m)) This does the same thing, but instead of decreasing, it increases the (w)ait time, making the loop slower.
-				 * 
-				 */
+				// Where (w) = waitInMilliseconds , (m) = mainLoopCap , (a) = actualLoopsPerSecond
+			    // TOO SLOW w=w(a/m) Find the percentage difference of the (m)ainLoopCap and (a)ctual then decrease it from the (w)ait time.
+				// TOO FAST w=w/(a/m)) This does the same thing, but instead of decreasing, it increases the (w)ait time, making the loop slower.
+			    // 
+				//
 				// Loop too fast, must increase the wait time.
                 if (actualLoopsPerSecond > mainLoopCap)
                 {
 					//Console.WriteLine("TOO FAST - wait{0}, actual {1}, mainLoopCap{2}", waitInMilliseconds, actualLoopsPerSecond, mainLoopCap);
-                    waitInMilliseconds = Convert.ToInt32((double)waitInMilliseconds/((double)actualLoopsPerSecond/(double)mainLoopCap));
+                    deltaTime = Convert.ToInt32((double)deltaTime/((double)actualLoopsPerSecond/(double)mainLoopCap));
 					//Console.WriteLine("WAIT AFTER CONVERSION {0}", waitInMilliseconds);
                 }
 				// Loop to slow, must lower the wait time.
                 else if (actualLoopsPerSecond < mainLoopCap)
                 {
 					//Console.WriteLine("TOO SLOW - wait{0}, actual {1}, mainLoopCap{2}", waitInMilliseconds, actualLoopsPerSecond, mainLoopCap);
-					waitInMilliseconds = Convert.ToInt32((double)waitInMilliseconds*((double)actualLoopsPerSecond/(double)mainLoopCap));
+					deltaTime = Convert.ToInt32((double)deltaTime*((double)actualLoopsPerSecond/(double)mainLoopCap));
 					//Console.WriteLine("WAIT AFTER CONVERSION {0}", waitInMilliseconds);
                 }
                 actualLoopsPerSecond = 0;
@@ -122,6 +124,6 @@ namespace GameEngine
                 statTimer.Reset();
                 statTimer.Start();
             }
-        }
+        }*/
     }
 }

@@ -106,7 +106,7 @@ namespace GameEngine
 		
 		public void DrawStats()
 		{
-			Console.WriteLine(" FPS: {0} WaitTime: {1} ", Updates.statFPS, Updates.statWaitTime);
+			Console.WriteLine(" FPS: {0} WaitTime: {1} ", Updates.statFPS, Updates.statDeltaTime);
 		}
     }
 	
