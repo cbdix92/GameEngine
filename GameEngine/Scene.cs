@@ -9,6 +9,8 @@ namespace GameEngine
         public Render render;
 
         public Dictionary<string, Gameobject> gameobjects;
+
+        public Background[] backgrounds;
 		
 		public Scene()
 		{
@@ -17,14 +19,18 @@ namespace GameEngine
 		}
 
 
-        public void AddGameobject(string name)
+        public Gameobject AddGameobject(string name)
         {
 			gameobjects.Add(name, new Gameobject(this, name));
+            return gameobjects[name];
         }
 
-        public void AddBackground(string name)
+        public Background AddBackground(int zBuffer, string name)
         {
-            gameobjects.Add(name, new Background(this, name));
+            Core.ListUp<Background>(ref backgrounds);
+            backgrounds[backgrounds.Length - 1] = new Background(this,zBuffer, name);
+            return backgrounds[backgrounds.Length - 1];
+
         }
 		
 		public void Update()
