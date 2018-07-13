@@ -21,6 +21,7 @@ namespace GameEngine
 
         public void AddComponet(string name, Componet componet)
         {
+            componet.Parent(this);
 			componets.Add(name, componet);
         }
 		
@@ -47,4 +48,8 @@ namespace GameEngine
 	public class Componet
 	{
 	}
+
+    public interface IComponet
+    {
+    }
 }

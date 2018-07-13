@@ -11,6 +11,7 @@ namespace GameEngine
 		{
 			ScreenX = screenX;
 			ScreenY = screenY;
+            Render.Init();
 		}
 	}
 }

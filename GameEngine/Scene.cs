@@ -6,7 +6,6 @@ namespace GameEngine
 {
     public class Scene
     {
-        public Render render;
 
         public Dictionary<string, Gameobject> gameobjects;
 
@@ -15,7 +14,7 @@ namespace GameEngine
 		public Scene()
 		{
             gameobjects = new Dictionary<string, Gameobject>();
-            render = new Render(this);
+
 		}
 
 
@@ -35,7 +34,7 @@ namespace GameEngine
 		
 		public void Update()
 		{
-			// Call Update method on each Gameobject inside of the scene
+			// Call Update method on each Background and then Gameobject inside of the scene
 		}
     }
 }

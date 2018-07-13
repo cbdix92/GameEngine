@@ -1,146 +1,149 @@
 ﻿using System;
 using GameEngine;
 
-public static class Core
+namespace GameEngine
 {
-    public static int[] GetArrayRange(int sourceArrayLength)
+
+    public static class Core
     {
-        /* 
-        * Returns an int[] equal to the length of another array. 
-        * Each element of the new array will contain a number equal to it's index. 
-        * allowing -> foreach (int Index in GetArrayRange(Array.GetLength(0))) 
-        * 
-        */
-
-        int[] temp = new int[sourceArrayLength];
-        for (int index = 0; index < sourceArrayLength; index++)
+        public static int[] GetArrayRange(int sourceArrayLength)
         {
-            temp[index] = index;
-        }
-        return temp;
-    }
+            /* 
+            * Returns an int[] equal to the length of another array. 
+            * Each element of the new array will contain a number equal to it's index. 
+            * allowing -> foreach (int Index in GetArrayRange(Array.GetLength(0))) 
+            * 
+            */
 
-    public static int[] CalculateArraySize(string source)
-    {
-        /* 
-         * Calculate the size needed for a two dimensional array to contain a string object separated into chars. 
-         * Used when converting strings into two-dimensional arrays.
-         * 
-         */
-
-        int sizeY = 1;
-        int sizeX = 0;
-        int maxX = 0;
-
-        foreach (char item in source)
-        {
-            if (item == '\n')
+            int[] temp = new int[sourceArrayLength];
+            for (int index = 0; index < sourceArrayLength; index++)
             {
-                sizeY++;
-                sizeX = 0;
-                continue;
+                temp[index] = index;
             }
-            sizeX++;
-			if (sizeX > maxX) { maxX = sizeX; }
+            return temp;
         }
 
-        return new int[2] { sizeY, maxX };
-
-    }
-	
-	public static int CalculateKeyFrames(string animationSource)
-	{
-		int count = 0;
-		
-		foreach (char item in animationSource)
-		{
-			if (item == '\t')
-			{
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public static void StringToArray(ref char[,] image, string source)
-	{
-		/*
-		 * Convert a string into a two-dimensional char array.
-		 * string "  @  \n @@@ \n@@@@@"
-		 * 
-		 *         |___@___|
-		 *         |__@@@__|
-		 * becomes:|_@@@@@_| Inside of a two-dimensional matrix
-		 * 
-		 * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
-		 */
-		int indexCountY = 0;
-		int indexCountX = 0;
-		
-		foreach (char item in source)
-		{
-			if (item == '\n')
-			{
-				indexCountY++;
-				indexCountX = 0;
-			}
-			else
-			{
-				image[indexCountY, indexCountX] = item;
-				indexCountX++;
-			}
-		}
-	}
-
-    public static void FillArray(ref char[,] target, char[,] image)
-    {
-        int indexY = 0;
-        int indexX = 0;
-        
-        foreach (int Y in GetArrayRange(target.GetLength(0)))
+        public static int[] CalculateArraySize(string source)
         {
-            if (Y != 0)
+            /* 
+             * Calculate the size needed for a two dimensional array to contain a string object separated into chars. 
+             * Used when converting strings into two-dimensional arrays.
+             * 
+             */
+
+            int sizeY = 1;
+            int sizeX = 0;
+            int maxX = 0;
+
+            foreach (char item in source)
             {
-                indexY++;
-                indexX = 0;
-            }
-            if (indexY == image.GetLength(0))
-            {
-                indexY = 0;
-            }
-            foreach (int X in GetArrayRange(target.GetLength(1)))
-            {
-                if (indexX == image.GetLength(1))
+                if (item == '\n')
                 {
+                    sizeY++;
+                    sizeX = 0;
+                    continue;
+                }
+                sizeX++;
+                if (sizeX > maxX) { maxX = sizeX; }
+            }
+
+            return new int[2] { sizeY, maxX };
+
+        }
+
+        public static int CalculateKeyFrames(string animationSource)
+        {
+            int count = 0;
+
+            foreach (char item in animationSource)
+            {
+                if (item == '\t')
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public static void StringToArray(ref char[,] image, string source)
+        {
+            /*
+             * Convert a string into a two-dimensional char array.
+             * string "  @  \n @@@ \n@@@@@"
+             * 
+             *         |___@___|
+             *         |__@@@__|
+             * becomes:|_@@@@@_| Inside of a two-dimensional matrix
+             * 
+             * This makes it easier to draw to the screen buffer and subsequently be displayed to the user.
+             */
+            int indexCountY = 0;
+            int indexCountX = 0;
+
+            foreach (char item in source)
+            {
+                if (item == '\n')
+                {
+                    indexCountY++;
+                    indexCountX = 0;
+                }
+                else
+                {
+                    image[indexCountY, indexCountX] = item;
+                    indexCountX++;
+                }
+            }
+        }
+
+        public static void FillArray(ref char[,] target, char[,] image)
+        {
+            int indexY = 0;
+            int indexX = 0;
+
+            foreach (int Y in GetArrayRange(target.GetLength(0)))
+            {
+                if (Y != 0)
+                {
+                    indexY++;
                     indexX = 0;
                 }
-                target[Y, X] = image[indexY, indexX];
-                indexX++;
-				
+                if (indexY == image.GetLength(0))
+                {
+                    indexY = 0;
+                }
+                foreach (int X in GetArrayRange(target.GetLength(1)))
+                {
+                    if (indexX == image.GetLength(1))
+                    {
+                        indexX = 0;
+                    }
+                    target[Y, X] = image[indexY, indexX];
+                    indexX++;
+
+                }
             }
+
         }
 
-    }
-	
-	public static void ListUp<T> (ref T[] targetList)
-	{
-		if (targetList == null)
-		{
-			targetList = new T[1];
-		}
-		else
-		{
-			Array.Resize(ref targetList, targetList.Length + 1);
-		}
-		
-	}
-	
-	public static void AnimationParser(ref Image[] animation, string animationSource)
-	{
-		int keyFrame = 0;
-		string frameBuffer = "";
-		
-		foreach (char item in animationSource)
+        public static void ListUp<T>(ref T[] targetList)
+        {
+            if (targetList == null)
+            {
+                targetList = new T[1];
+            }
+            else
+            {
+                Array.Resize(ref targetList, targetList.Length + 1);
+            }
+
+        }
+
+        public static void AnimationParser(ref Image[] animation, string animationSource)
+        {
+            int keyFrame = 0;
+            string frameBuffer = "";
+
+            foreach (char item in animationSource)
             {
                 if (item != '\t')
                 {
@@ -153,8 +156,8 @@ public static class Core
                     keyFrame++;
                 }
             }
-	}
+        }
+    }
 }
-
 
 

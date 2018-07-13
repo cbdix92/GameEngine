@@ -8,7 +8,9 @@ namespace GameEngine
 		
         static void Start()
         {
-            while(!quit)
+            Updates.Init();
+
+            while (!quit)
             {
                 // User Input
                 // See System.Windows.Input.AddKeyDownHandler() => GameEngine.Input.Update(). This is how we will check input whenever ANY key is pressed ...

@@ -5,33 +5,26 @@ using System.Diagnostics;
 namespace GameEngine
 {
 
-    public class Render
+    public static class Render
     {
-        private char[,] screen;
+        private static char[,] screen;
 		
-		private Scene parentScene;
-		
-		private Image[] backgroundsToRender;
-		private Image[] sceneObjectsToRender;
+		private static Image[] renderQueue;
 
 		// Flags
-		public bool showStats = false;
+		public static bool showStats = false;
 
 		
-		public Render(Scene parentScene)
+		public static void Init()
 		{
-            Updates.Init();
             screen = new char[Display.ScreenY, Display.ScreenX];
-			this.parentScene = parentScene;
 		}
 
-        public void UpdateScreen()
+        public static void UpdateScreen()
         {
-			// Check backgroundsToRender and write each one to the screen.
+			// Check renderQueue and write each Image to the screen.
 			// ...
 			
-			// Check imagesToRender and write each on to the screen.
-			// ...
 			
 			
 			
@@ -87,7 +80,7 @@ namespace GameEngine
             SkipSpriteCheck:;*/
         }
 
-		public void Draw()
+		public static void Draw()
         {
             Console.Clear();
 			
@@ -104,7 +97,7 @@ namespace GameEngine
             }
         }
 		
-		public void DrawStats()
+		public static void DrawStats()
 		{
 			Console.WriteLine(" FPS: {0} WaitTime: {1} ", Updates.statFPS, Updates.statDeltaTime);
 		}

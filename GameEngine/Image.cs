@@ -7,6 +7,7 @@ namespace GameEngine
 		
         public char[,] image;
         private int[] size;
+        private Gameobject parentObject; // Passed into Render Event as the source object allowing the renderer to get cordinates
 
         public Image()
         {
@@ -35,6 +36,11 @@ namespace GameEngine
 
             // Convert string into char array and assign it to the proper position inside of the image array
             Core.StringToArray(ref image, source);
+        }
+
+        public void Parent(Gameobject newParent)
+        {
+            parentObject = newParent;
         }
 		
 		public char[,] Get()
