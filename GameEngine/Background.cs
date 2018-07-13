@@ -35,6 +35,8 @@ namespace GameEngine
 			 * Fill the background with Image object.
 			 * If the Image object is not large enough to fill the background, it will be tiled.
 			 */
+			
+			if (buffer == null){ buffer  = new char[Display.ScreenY, Display.ScreenX]; }
             Core.FillArray(ref this.buffer, image.Get());
             background = new Image() { image = buffer };
 		}

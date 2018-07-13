@@ -52,7 +52,7 @@ namespace GameEngine
 
             Thread.Sleep(deltaTime);
 
-            if (loopTimer.ElapsedMilliseconds > 600_000) // Reset the Clock every 10 minutes
+            if (loopTimer.ElapsedMilliseconds > 600000) // Reset the Clock every 10 minutes
             {
                 loopTimer.Reset();
                 loopTimer.Start();

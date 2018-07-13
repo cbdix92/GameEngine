@@ -11,8 +11,8 @@ namespace GameEngine
 		
 		private Scene parentScene;
 		
-		private Background[] backgroundsToRender;
-		private Image[] imagesToRender;
+		private Image[] backgroundsToRender;
+		private Image[] sceneObjectsToRender;
 
 		// Flags
 		public bool showStats = false;
