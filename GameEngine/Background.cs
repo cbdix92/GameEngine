@@ -47,5 +47,10 @@ namespace GameEngine
             Core.FillArray(ref this.buffer, new Image(source).Get());
             background = new Image() { image = buffer };
         }
+		
+		public void Update()
+		{
+			background.Update();
+		}
 	}
 }

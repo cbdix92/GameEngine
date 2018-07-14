@@ -47,9 +47,8 @@ namespace GameEngine
 	
 	public class Componet
 	{
+		public void Parent(object newParent)
+		{
+		}
 	}
-
-    public interface IComponet
-    {
-    }
 }

@@ -52,7 +52,12 @@ namespace GameEngine
 		public void Update()
 		{
 			// Raise Render Event.
-			// ...
+			Events.OnRenderCalled(parentObject, new ImageArgs(){imageArg = image});
 		}
     }
+	
+	public class ImageArgs : EventArgs
+	{
+		public char[,] imageArg;
+	}
 }

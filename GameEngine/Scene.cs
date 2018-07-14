@@ -29,12 +29,15 @@ namespace GameEngine
             Core.ListUp<Background>(ref backgrounds);
             backgrounds[backgrounds.Length - 1] = new Background(this,zBuffer, name);
             return backgrounds[backgrounds.Length - 1];
-
         }
 		
 		public void Update()
 		{
 			// Call Update method on each Background and then Gameobject inside of the scene
+			foreach (int index in Core.GetArrayRange(backgrounds.Length))
+			{
+				backgrounds[index].Update();
+			}
 		}
     }
 }

@@ -18,6 +18,12 @@ namespace GameEngine
 		public static void Init()
 		{
             screen = new char[Display.ScreenY, Display.ScreenX];
+			Events.RenderCalled += GetEvent;
+		}
+		
+		public static void GetEvent(object source, EventArgs args)
+		{
+			Console.WriteLine(args);
 		}
 
         public static void UpdateScreen()
