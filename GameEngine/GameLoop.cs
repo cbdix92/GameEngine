@@ -4,10 +4,13 @@ namespace GameEngine
 {
     static class GameLoop
     {
-        static bool quit = false;
+        public static bool quit = false;
+		
+		public static Scene[] scenes;
 		
         static void Start()
         {
+			Render.Init();
             Updates.Init();
 
             while (!quit)

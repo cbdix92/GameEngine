@@ -14,7 +14,10 @@ namespace GameEngine
 		public Scene()
 		{
             gameobjects = new Dictionary<string, Gameobject>();
-
+			
+			// Add current instance of Scene to GameLoop
+			Core.ListUp<Scene>(GameLoop.scenes);
+			GameLoop.scenes[GameLoop.scenes.Length - 1] = this;
 		}
 
 
@@ -37,6 +40,11 @@ namespace GameEngine
 			foreach (int index in Core.GetArrayRange(backgrounds.Length))
 			{
 				backgrounds[index].Update();
+			}
+			
+			foreach (string key in gameobjects.Keys)
+			{
+				gameobjects[key].Update();
 			}
 		}
     }
