@@ -16,7 +16,7 @@ namespace GameEngine
             gameobjects = new Dictionary<string, Gameobject>();
 			
 			// Add current instance of Scene to GameLoop
-			Core.ListUp<Scene>(GameLoop.scenes);
+			Core.ListUp<Scene>(ref GameLoop.scenes);
 			GameLoop.scenes[GameLoop.scenes.Length - 1] = this;
 		}
 

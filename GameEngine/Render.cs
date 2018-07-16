@@ -17,7 +17,13 @@ namespace GameEngine
 		
 		public static void Init()
 		{
+			if (Display.ScreenX == 0 || Display.ScreenY == 0)
+			{
+				Display.DefaultSet();
+			}
+			
             screen = new char[Display.ScreenY, Display.ScreenX];
+			
 			Events.RenderCalled += GetEvent;
 		}
 		

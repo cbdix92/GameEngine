@@ -9,7 +9,7 @@ namespace App
 		
 		static void Main(string[] args)
 		{
-			Display.DisplaySize(20, 20);
+			Display.DisplaySize(80, 80);
 			
 			Scene scene1 = new Scene();
 			
